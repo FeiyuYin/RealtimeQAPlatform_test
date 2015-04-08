@@ -21,4 +21,6 @@ public class Person extends Model{
     private String email;
 
     private String password;
+
+    private String address;
 }
