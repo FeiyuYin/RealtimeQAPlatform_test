@@ -1,0 +1,13 @@
+User{uId, firstName, lastName, email, password}
+
+Question{qId, title, content, uId}
+
+Answer{aId, content, isBest, views, likes, qId, uId}
+
+Command to create:
+
+curl --header "content-type: application/json" --request POST --data '{"firstName": "xiaotong", "lastName": "wang", "email": "a@a", "password": "123456"}' http://localhost:9000/users
+
+curl --header "content-type: application/json" --request POST --data '{"title": "where", "content": "wang", "uId" : 2}' http://localhost:9000/questions
+
+curl --header "content-type: application/json" --request POST --data '{"isBest": "true", "content": "answer", "likes": 0, "views": 0, "uId": 2, "qId": 1}' http://localhost:9000/answers

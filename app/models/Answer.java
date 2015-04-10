@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  * Created by yin on 15-4-1.
@@ -18,6 +19,28 @@ public class Answer {
     private int likes;
 
     private int views;
+
+    @ManyToOne
+    private Question q;
+
+    @ManyToOne
+    private User u;
+
+    public User getU() {
+        return u;
+    }
+
+    public void setU(User u) {
+        this.u = u;
+    }
+
+    public Question getQ() {
+        return q;
+    }
+
+    public void setQ(Question q) {
+        this.q = q;
+    }
 
     public long getaId() {
         return aId;
