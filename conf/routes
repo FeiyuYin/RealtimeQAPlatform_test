@@ -4,19 +4,27 @@
 
 # Home page
 GET     /                           controllers.Application.index()
-POST    /person                     controllers.Application.addPerson()
-GET     /person                     controllers.Application.getPersons()
+POST    /persons                    controllers.Application.addPerson()
+GET     /persons                    controllers.Application.getPersons()
 POST    /test                       controllers.Application.test()
 
-POST    /postuser                   controllers.Application.postUser()
-GET     /user/:id                   controllers.Application.getUser(id: Long)
-GET     /users                      controllers.Application.getUsers()
-POST    /postquestion               controllers.Application.postQuestion()
-GET     /question/:id               controllers.Application.getQuestion(id: Long)
-GET     /questions                  controllers.Application.getQuestions()
-POST    /postanswer                 controllers.Application.postAnswer()
-GET     /answer/:id                 controllers.Application.getAnswer(id: Long)
-GET     /answers                    controllers.Application.getAnswers()
+POST    /users                      controllers.UserController.createUser()
+GET     /users/:id                  controllers.UserController.getUser(id: Long)
+GET     /users                      controllers.UserController.getUsers()
+PUT     /users/:id                  controllers.UserController.updateUser(id: Long)
+DELETE  /users/:id                  controllers.UserController.deleteUser(id: Long)
+
+POST    /questions                  controllers.QuestionController.createQuestion()
+GET     /questions/:id              controllers.QuestionController.getQuestion(id: Long)
+GET     /questions                  controllers.QuestionController.getQuestions()
+PUT     /questions/:id              controllers.QuestionController.updateQuestion(id: Long)
+DELETE  /questions/:id              controllers.QuestionController.deleteQuestion(id: Long)
+
+POST    /answers                    controllers.AnswerController.createAnswer()
+GET     /answers/:id                controllers.AnswerController.getAnswer(id: Long)
+GET     /answers                    controllers.AnswerController.getAnswers()
+PUT     /answers/:id                controllers.AnswerController.updateAnswer(id: Long)
+DELETE  /answers/:id                controllers.AnswerController.deleteAnswer(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
