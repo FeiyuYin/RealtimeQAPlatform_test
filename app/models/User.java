@@ -24,7 +24,16 @@ public class User extends Model {
 
     private String password;
 
-//    @OneToMany(cascade= CascadeType.ALL)
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    //    @OneToMany(cascade= CascadeType.ALL)
 //    List<Question> qs;
 
 //    public List<Question> getQs() {
@@ -51,11 +60,11 @@ public class User extends Model {
         this.lastName = lastName;
     }
 
-    public long getpId() {
+    public long getuId() {
         return uId;
     }
 
-    public void setpId(long uId) {
+    public void setuId(long uId) {
         this.uId = uId;
     }
 

@@ -85,4 +85,18 @@ public class QuestionController extends Controller {
         Ebean.delete(q);
         return ok();
     }
+
+    public static Result setAnswer(Long id){
+        Question q = (Question)new Model.Finder(String.class, Question.class).byId(id);
+        if(q == null){
+            return badRequest("Id does not exist");
+        }
+        JsonNode json = request().body().asJson();
+        Long answerId = json.findPath("answerId").longValue();
+        User u = (User)new Model.Finder(String.class, User.class).byId(answerId);
+        if(u == null){
+            return badRequest("user Id does not exist");
+        }
+        return ok();
+    }
 }

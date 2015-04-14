@@ -1,6 +1,6 @@
 User{uId, firstName, lastName, email, password}
 
-Question{qId, title, content, uId}
+Question{qId, title, content, uId, answerId}
 
 Answer{aId, content, isBest, views, likes, qId, uId}
 

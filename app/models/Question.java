@@ -22,7 +22,17 @@ public class Question extends Model {
     @ManyToOne
     private User u;
 
-//    @OneToMany(cascade= CascadeType.ALL)
+    @ManyToOne
+    private User answer;
+
+    public User getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(User answer) {
+        this.answer = answer;
+    }
+    //    @OneToMany(cascade= CascadeType.ALL)
 //    List<Answer> as;
 
 //    public List<Answer> getAs() {
