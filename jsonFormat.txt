@@ -1,8 +1,10 @@
-User{uId, firstName, lastName, email, password}
+User{uId, firstName, lastName, email, password, cIds{cId1, cId2, ...}}
 
-Question{qId, title, content, uId, answerId}
+Question{qId, title, content, uId, answerId, cIds{cId1, cId2, ...}}
 
 Answer{aId, content, isBest, views, likes, qId, uId}
+
+Category{cId, cName, fNumber, qIds{qId1, qId2, ...}, uIds{uId1, uId2, ...}}
 
 Command to create:
 
