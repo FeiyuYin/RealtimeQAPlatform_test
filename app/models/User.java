@@ -2,10 +2,8 @@ package models;
 
 import play.db.ebean.Model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +14,9 @@ public class User extends Model {
     @Id
     private long uId;
 
+    @ManyToMany(mappedBy = "users", cascade= CascadeType.ALL)
+    List<Category> expertises = new ArrayList<Category>();
+
     private String firstName;
 
     private String lastName;
@@ -24,25 +25,13 @@ public class User extends Model {
 
     private String password;
 
-    private String address;
-
-    public String getAddress() {
-        return address;
+    public List<Category> getExpertises() {
+        return expertises;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setExpertises(List<Category> expertises) {
+        this.expertises = expertises;
     }
-    //    @OneToMany(cascade= CascadeType.ALL)
-//    List<Question> qs;
-
-//    public List<Question> getQs() {
-//        return qs;
-//    }
-//
-//    public void setQs(List<Question> qs) {
-//        this.qs = qs;
-//    }
 
     public String getFirstName() {
         return firstName;

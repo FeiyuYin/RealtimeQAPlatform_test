@@ -1,8 +1,10 @@
 package models;
 
 import play.db.ebean.Model;
+import scala.collection.immutable.StreamViewLike;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +27,9 @@ public class Question extends Model {
     @ManyToOne
     private User answer;
 
+    @ManyToMany(mappedBy = "questions",cascade={CascadeType.ALL})
+    private List<Category> cs = new ArrayList<Category>();
+
     public User getAnswer() {
         return answer;
     }
@@ -42,6 +47,14 @@ public class Question extends Model {
 //    public void setAs(List<Answer> as) {
 //        this.as = as;
 //    }
+
+    public List<Category> getCs() {
+        return cs;
+    }
+
+    public void setCs(List<Category> cs) {
+        this.cs = cs;
+    }
 
     public User getU() {
         return u;

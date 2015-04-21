@@ -8,7 +8,6 @@ POST    /persons                    controllers.Application.addPerson()
 GET     /persons                    controllers.Application.getPersons()
 POST    /test                       controllers.Application.test()
 
-POST    /users                      controllers.UserController.createUser()
 GET     /users/:id                  controllers.UserController.getUser(id: Long)
 GET     /users                      controllers.UserController.getUsers()
 PUT     /users/:id                  controllers.UserController.updateUser(id: Long)
@@ -25,6 +24,12 @@ GET     /answers/:id                controllers.AnswerController.getAnswer(id: L
 GET     /answers                    controllers.AnswerController.getAnswers()
 PUT     /answers/:id                controllers.AnswerController.updateAnswer(id: Long)
 DELETE  /answers/:id                controllers.AnswerController.deleteAnswer(id: Long)
+
+POST    /categories                 controllers.CategoryController.createCategory()
+GET     /categories/:id             controllers.CategoryController.getCategory(id: long)
+GET     /categories                 controllers.CategoryController.getCategories()
+PUT     /categories/:id             controllers.CategoryController.updateCategory(id: Long)
+DELETE  /categories/:id             controllers.CategoryController.deleteCategory(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
