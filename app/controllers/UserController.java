@@ -4,6 +4,7 @@ import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Category;
 import models.User;
+import org.json.JSONArray;
 import play.db.ebean.Model;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -47,7 +48,7 @@ public class UserController extends Controller {
 
         List<Category> cs = new ArrayList<Category>();
         for(int i = 0; i < cNames.size(); i ++){
-            Category c = (Category) new Model.Finder(String.class, Category.class).byId(Long.parseLong(cNames.get(i)));
+            Category c = Ebean.find(Category.class, Long.parseLong(cNames.get(i)));
             if (c != null){
                 cs.add(c);
             }
@@ -63,7 +64,7 @@ public class UserController extends Controller {
     }
 
     public static Result getUser(Long id){
-        User u = (User)new Model.Finder(String.class, User.class).byId(id);
+        User u = Ebean.find(User.class, id);
         if(u == null){
             return badRequest("Id does not exist");
         }
@@ -71,12 +72,12 @@ public class UserController extends Controller {
     }
 
     public static Result getUsers(){
-        List<User> users = new Model.Finder(String.class, User.class).all();
+        List<User> users = Ebean.find(User.class).findList();
         return ok(toJson(users));
     }
 
     public static Result updateUser(Long id){
-        User u = (User)new Model.Finder(String.class, User.class).byId(id);
+        User u = Ebean.find(User.class, id);
         if(u == null){
             return badRequest("Id does not exist");
         }
@@ -88,10 +89,15 @@ public class UserController extends Controller {
         List<String> cNames =  json.findValuesAsText("cIds");
 
         List<Category> cs = new ArrayList<Category>();
-        for(int i = 0; i < cNames.size(); i ++){
-            Category c = (Category) new Model.Finder(String.class, Category.class).byId(Long.parseLong(cNames.get(i)));
-            if (c != null){
-                cs.add(c);
+
+        if(json.findPath("cIds") != null){
+            JSONArray ja = new JSONArray(json.findPath("cIds").toString());
+            for(int i = 0; i < ja.length(); i ++){
+                Long cId = Long.parseLong(ja.get(i).toString());
+                Category c = Ebean.find(Category.class, cId);
+                if(c != null){
+                    cs.add(c);
+                }
             }
         }
 
@@ -115,7 +121,7 @@ public class UserController extends Controller {
     }
 
     public static Result deleteUser(Long id){
-        User u = (User)new Model.Finder(String.class, User.class).byId(id);
+        User u = Ebean.find(User.class, id);
         if(u == null){
             return badRequest("Id does not exist");
         }

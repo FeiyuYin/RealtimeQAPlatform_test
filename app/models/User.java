@@ -5,7 +5,8 @@ import play.db.ebean.Model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Set;
+import java.util.HashSet;
 /**
  * Created by yin on 15-4-5.
  */
@@ -14,8 +15,8 @@ public class User extends Model {
     @Id
     private long uId;
 
-    @ManyToMany(mappedBy = "users", cascade= CascadeType.ALL)
-    List<Category> expertises = new ArrayList<Category>();
+    @ManyToMany(mappedBy = "")
+    Set<Category> expertises = new HashSet<Category>();
 
     private String firstName;
 
@@ -25,11 +26,11 @@ public class User extends Model {
 
     private String password;
 
-    public List<Category> getExpertises() {
+    public Set<Category> getExpertises() {
         return expertises;
     }
 
-    public void setExpertises(List<Category> expertises) {
+    public void setExpertises(Set<Category> expertises) {
         this.expertises = expertises;
     }
 

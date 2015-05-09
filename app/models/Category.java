@@ -2,12 +2,12 @@ package models;
 
 import play.db.ebean.Model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+
 
 /**
  * Created by yin on 15-4-18.
@@ -21,11 +21,27 @@ public class Category extends Model {
 
     private int followerNumber;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<User> users = new ArrayList<User>();
+    @ManyToMany
+    private Set<User> users = new HashSet<User>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<Question> questions = new ArrayList<Question>();
+    @ManyToMany(mappedBy = "")
+    private Set<Question> questions = new HashSet<Question>();
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
+    public Set<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(Set<Question> questions) {
+        this.questions = questions;
+    }
 
     public int getFollowerNumber() {
         return followerNumber;

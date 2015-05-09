@@ -39,7 +39,7 @@ public class CategoryController extends Controller {
     }
 
     public static Result getCategory(Long id){
-        Category c = (Category) new Model.Finder(String.class, Category.class).byId(id);
+        Category c = Ebean.find(Category.class, id);
         if(c == null){
             return badRequest("Id does not exist");
         }
@@ -47,12 +47,12 @@ public class CategoryController extends Controller {
     }
 
     public static Result getCategories(){
-        List<Category> cs = new Model.Finder(String.class, Category.class).all();
+        List<Category> cs = Ebean.find(Category.class).findList();
         return ok(toJson(cs));
     }
 
     public static Result updateCategory(Long id){
-        Category c = (Category) new Model.Finder(String.class, Category.class).byId(id);
+        Category c = Ebean.find(Category.class, id);
         if (c == null){
             return badRequest("Id does not exist");
         }
@@ -69,7 +69,7 @@ public class CategoryController extends Controller {
     }
 
     public static Result deleteCategory(Long id){
-        Category c = (Category) new Model.Finder(String.class, Category.class).byId(id);
+        Category c = Ebean.find(Category.class, id);
         if(c == null){
             return badRequest("Id does not exist");
         }

@@ -36,7 +36,7 @@ create table question (
   title                     varchar(255),
   content                   varchar(255),
   u_u_id                    bigint,
-  answer_u_id               bigint,
+  answerer_u_id             bigint,
   constraint pk_question primary key (q_id))
 ;
 
@@ -61,14 +61,26 @@ create table category_question (
   question_q_id                  bigint not null,
   constraint pk_category_question primary key (category_c_id, question_q_id))
 ;
+
+create table question_category (
+  question_q_id                  bigint not null,
+  category_c_id                  bigint not null,
+  constraint pk_question_category primary key (question_q_id, category_c_id))
+;
+
+create table user_category (
+  user_u_id                      bigint not null,
+  category_c_id                  bigint not null,
+  constraint pk_user_category primary key (user_u_id, category_c_id))
+;
 alter table answer add constraint fk_answer_q_1 foreign key (q_q_id) references question (q_id) on delete restrict on update restrict;
 create index ix_answer_q_1 on answer (q_q_id);
 alter table answer add constraint fk_answer_u_2 foreign key (u_u_id) references user (u_id) on delete restrict on update restrict;
 create index ix_answer_u_2 on answer (u_u_id);
 alter table question add constraint fk_question_u_3 foreign key (u_u_id) references user (u_id) on delete restrict on update restrict;
 create index ix_question_u_3 on question (u_u_id);
-alter table question add constraint fk_question_answer_4 foreign key (answer_u_id) references user (u_id) on delete restrict on update restrict;
-create index ix_question_answer_4 on question (answer_u_id);
+alter table question add constraint fk_question_answerer_4 foreign key (answerer_u_id) references user (u_id) on delete restrict on update restrict;
+create index ix_question_answerer_4 on question (answerer_u_id);
 
 
 
@@ -79,6 +91,14 @@ alter table category_user add constraint fk_category_user_user_02 foreign key (u
 alter table category_question add constraint fk_category_question_category_01 foreign key (category_c_id) references category (c_id) on delete restrict on update restrict;
 
 alter table category_question add constraint fk_category_question_question_02 foreign key (question_q_id) references question (q_id) on delete restrict on update restrict;
+
+alter table question_category add constraint fk_question_category_question_01 foreign key (question_q_id) references question (q_id) on delete restrict on update restrict;
+
+alter table question_category add constraint fk_question_category_category_02 foreign key (category_c_id) references category (c_id) on delete restrict on update restrict;
+
+alter table user_category add constraint fk_user_category_user_01 foreign key (user_u_id) references user (u_id) on delete restrict on update restrict;
+
+alter table user_category add constraint fk_user_category_category_02 foreign key (category_c_id) references category (c_id) on delete restrict on update restrict;
 
 # --- !Downs
 
@@ -96,7 +116,11 @@ drop table person;
 
 drop table question;
 
+drop table question_category;
+
 drop table user;
+
+drop table user_category;
 
 SET FOREIGN_KEY_CHECKS=1;
 

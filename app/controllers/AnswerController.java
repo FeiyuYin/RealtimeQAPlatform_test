@@ -23,13 +23,32 @@ public class AnswerController extends Controller {
             return badRequest("Expecting a Json input");
         }
 
+        if(json.findPath("uId") == null){
+            return badRequest("No uId field");
+        }
+        if(json.findPath("qId") == null){
+            return badRequest("No qId field");
+        }
+        if(json.findPath("content") == null){
+            return badRequest("No content field");
+        }
+        if(json.findPath("isBest") == null){
+            return badRequest("No isBest field");
+        }
+        if(json.findPath("views") == null){
+            return badRequest("No views field");
+        }
+        if(json.findPath("likes") == null){
+            return badRequest("No likes field");
+        }
+
         Long uId = json.findPath("uId").asLong();
-        User u = (User)new Model.Finder(String.class, User.class).byId(uId);
+        User u = Ebean.find(User.class, uId);
         if(u == null){
             return badRequest("user Id does not exist");
         }
         Long qId = json.findPath("qId").asLong();
-        Question q = (Question)new Model.Finder(String.class, Question.class).byId(qId);
+        Question q = Ebean.find(Question.class, qId);
         if(q == null){
             return badRequest("question Id does not exist");
         }
@@ -49,7 +68,7 @@ public class AnswerController extends Controller {
     }
 
     public static Result getAnswer(Long id){
-        Answer a = (Answer)new Model.Finder(String.class, Answer.class).byId(id);
+        Answer a = Ebean.find(Answer.class, id);
         if(a == null){
             return badRequest("Id does not exist");
         }
@@ -59,12 +78,12 @@ public class AnswerController extends Controller {
     }
 
     public static Result getAnswers(){
-        List<Answer> answers = new Model.Finder(String.class, Answer.class).all();
+        List<Answer> answers = Ebean.find(Answer.class).findList();
         return ok(toJson(answers));
     }
 
     public static Result updateAnswer(Long id){
-        Answer a = (Answer)new Model.Finder(String.class, Answer.class).byId(id);
+        Answer a = Ebean.find(Answer.class, id);
         if(a == null){
             return badRequest("Id does not exist");
         }
@@ -86,7 +105,7 @@ public class AnswerController extends Controller {
     }
 
     public static Result deleteAnswer(Long id){
-        Answer a = (Answer)new Model.Finder(String.class, Answer.class).byId(id);
+        Answer a = Ebean.find(Answer.class, id);
         if(a == null){
             return badRequest("Id does not exist");
         }

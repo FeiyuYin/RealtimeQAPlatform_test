@@ -2,9 +2,12 @@ package models;
 
 import play.db.ebean.Model;
 
+import javax.annotation.PreDestroy;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Created by yin on 15-4-1.
@@ -24,34 +27,34 @@ public class Question extends Model {
     private User u;
 
     @ManyToOne
-    private User answer;
+    private User answerer;
 
-    @ManyToMany(mappedBy = "questions",cascade={CascadeType.ALL})
-    private List<Category> cs = new ArrayList<Category>();
+    @ManyToMany
+    private Set<Category> cs = new HashSet<Category>();
 
-    public User getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(User answer) {
-        this.answer = answer;
-    }
-    //    @OneToMany(cascade= CascadeType.ALL)
-//    List<Answer> as;
-
-//    public List<Answer> getAs() {
-//        return as;
-//    }
+//    @PreRemove
+//    protected void preRemove(){
 //
-//    public void setAs(List<Answer> as) {
-//        this.as = as;
+//        System.out.println("PreRemove is here!!!!!!!!!!!!!!!!!!!!!");
+//        for(Category c : this.cs){
+//            c.getQuestions().remove(this);
+//            c.save();
+//        }
 //    }
 
-    public List<Category> getCs() {
+    public User getAnswerer() {
+        return answerer;
+    }
+
+    public void setAnswerer(User answerer) {
+        this.answerer = answerer;
+    }
+
+    public Set<Category> getCs() {
         return cs;
     }
 
-    public void setCs(List<Category> cs) {
+    public void setCs(Set<Category> cs) {
         this.cs = cs;
     }
 

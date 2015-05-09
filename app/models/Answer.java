@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
@@ -21,9 +22,11 @@ public class Answer {
     private int views;
 
     @ManyToOne
+//    @JoinColumn(name="q_id", referencedColumnName="q_id")
     private Question q;
 
     @ManyToOne
+//    @JoinColumn(name="u_id", referencedColumnName="u_id")
     private User u;
 
     public User getU() {
