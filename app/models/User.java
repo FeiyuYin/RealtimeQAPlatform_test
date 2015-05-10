@@ -3,8 +3,6 @@ package models;
 import play.db.ebean.Model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 /**
@@ -15,7 +13,7 @@ public class User extends Model {
     @Id
     private long uId;
 
-    @ManyToMany(mappedBy = "")
+    @ManyToMany(cascade = CascadeType.ALL)
     Set<Category> expertises = new HashSet<Category>();
 
     private String firstName;

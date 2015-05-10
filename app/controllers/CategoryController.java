@@ -3,10 +3,15 @@ package controllers;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Category;
+import org.json.JSONArray;
 import play.db.ebean.Model;
 import play.mvc.Result;
 import play.mvc.Controller;
+import utils.CatUtil;
+import utils.TimeUtil;
 
+import java.lang.reflect.Array;
+import java.sql.Time;
 import java.util.List;
 
 import static play.libs.Json.toJson;
@@ -32,10 +37,12 @@ public class CategoryController extends Controller {
         String name = json.findPath("cName").textValue();
         int fNumber = json.findPath("fNumber").intValue();
         Category c = new Category();
+        c.setCreateDate(TimeUtil.getCurrentDate());
+        c.setCreateTime(TimeUtil.getCurrentTime());
         c.setName(name);
         c.setFollowerNumber(fNumber);
         Ebean.save(c);
-        return ok(toJson(c));
+        return ok(toJson(CatUtil.getCatJson(c)));
     }
 
     public static Result getCategory(Long id){
@@ -43,12 +50,16 @@ public class CategoryController extends Controller {
         if(c == null){
             return badRequest("Id does not exist");
         }
-        return ok(toJson(c));
+        return ok(toJson(CatUtil.getCatJson(c)));
     }
 
     public static Result getCategories(){
         List<Category> cs = Ebean.find(Category.class).findList();
-        return ok(toJson(cs));
+        JSONArray ja = new JSONArray();
+        for (Category c : cs){
+            ja.put(CatUtil.getCatJson(c));
+        }
+        return ok(ja.toString());
     }
 
     public static Result updateCategory(Long id){

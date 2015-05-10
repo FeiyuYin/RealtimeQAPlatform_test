@@ -23,24 +23,18 @@ public class Question extends Model {
 
     private String content;
 
+    private String createTime;
+
+    private String createDate;
+
     @ManyToOne
     private User u;
 
     @ManyToOne
     private User answerer;
 
-    @ManyToMany
-    private Set<Category> cs = new HashSet<Category>();
-
-//    @PreRemove
-//    protected void preRemove(){
-//
-//        System.out.println("PreRemove is here!!!!!!!!!!!!!!!!!!!!!");
-//        for(Category c : this.cs){
-//            c.getQuestions().remove(this);
-//            c.save();
-//        }
-//    }
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Category> cs = new HashSet<>();
 
     public User getAnswerer() {
         return answerer;
@@ -88,6 +82,22 @@ public class Question extends Model {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
 

@@ -34,5 +34,7 @@ GET     /categories                 controllers.CategoryController.getCategories
 PUT     /categories/:id             controllers.CategoryController.updateCategory(id: Long)
 DELETE  /categories/:id             controllers.CategoryController.deleteCategory(id: Long)
 
+POST    /notification               controllers.NotificationController.createNotificaton()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

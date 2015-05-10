@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Category;
 import models.Question;
 import models.User;
+import org.jboss.netty.util.internal.ReusableIterator;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,9 +14,15 @@ import play.db.ebean.Model;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import utils.QuestionUtil;
+import utils.TimeUtil;
 
+import java.lang.reflect.Array;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 import static play.libs.Json.toJson;
 
@@ -52,25 +59,28 @@ public class QuestionController extends Controller {
         String qTitle = json.findPath("title").textValue();
         String qContent = json.findPath("content").textValue();
 
-        List<Category> cs = new ArrayList<Category>();
+        Question q = new Question();
+        Set<Category> cs = new HashSet<>();
         if(json.findPath("cIds") != null){
             JSONArray ja = new JSONArray(json.findPath("cIds").toString());
             for(int i = 0; i < ja.length(); i ++){
                 Long cid = Long.parseLong(ja.get(i).toString());
                 Category c = Ebean.find(Category.class, cid);
                 if(c != null){
+                    c.getQuestions().add(q);
                     cs.add(c);
                 }
             }
         }
 
-        Question q = new Question();
+        q.setCreateTime(TimeUtil.getCurrentTime());
+        q.setCreateDate(TimeUtil.getCurrentDate());
         q.setContent(qContent);
         q.setTitle(qTitle);
         q.setU(u);
         q.setCs(cs);
         Ebean.save(q);
-        return ok(toJson(q));
+        return ok(QuestionUtil.getJson(q));
 
     }
 
@@ -80,13 +90,17 @@ public class QuestionController extends Controller {
             return badRequest("Id does not exist");
         }
         else{
-            return ok(toJson(q));
+            return ok(QuestionUtil.getJson(q));
         }
     }
 
     public static Result getQuestions(){
         List<Question> questions = Ebean.find(Question.class).findList();
-        return ok(toJson(questions));
+        JSONArray ja = new JSONArray();
+        for (Question q : questions){
+            ja.put(QuestionUtil.getJson(q));
+        }
+        return ok(ja.toString());
     }
 
     public static Result updateQuestion(Long id){
@@ -101,7 +115,7 @@ public class QuestionController extends Controller {
             return badRequest("Expecting a Json object");
         }
 
-        List<Category> cs = new ArrayList<Category>();
+        Set<Category> cs = new HashSet<Category>();
 
         if(json.findPath("cIds") != null){
             JSONArray ja = new JSONArray(json.findPath("cIds").toString());
@@ -117,6 +131,7 @@ public class QuestionController extends Controller {
                     e.printStackTrace();
                 }
             }
+            q.setCs(cs);
         }
 
         if (json.findPath("title") != null){
@@ -125,11 +140,8 @@ public class QuestionController extends Controller {
         if (json.findPath("content") != null){
             q.setContent(json.findPath("content").textValue());
         }
-        if(cs.size() > 0){
-            q.setCs(cs);
-        }
         Ebean.save(q);
-        return ok(toJson(q));
+        return ok(QuestionUtil.getJson(q));
     }
 
     public static Result deleteQuestion(Long id){
@@ -138,14 +150,14 @@ public class QuestionController extends Controller {
             return badRequest("Id does not exist");
         }
         for(Category c : q.getCs()){
-            System.out.println("!!!!!!!!!!!!!!!!!!!!");
-            c.getQuestions().remove(q);
-            Ebean.save(c);
+            System.out.println(c.getQuestions().size());
+//            c.getQuestions().remove(q);
+//            Ebean.save(c);
         }
-        q.setCs(null);
-        q.save();
+//        q.setCs(null);
+//        q.save();
         Ebean.delete(q);
-        return ok();
+        return ok("{'result' : 'delete successfully'}");
     }
 
     public static Result setAnswerer(Long id){
@@ -167,6 +179,6 @@ public class QuestionController extends Controller {
         }
         q.setAnswerer(answerer);
         Ebean.save(q);
-        return ok();
+        return ok(QuestionUtil.getJson(q));
     }
 }

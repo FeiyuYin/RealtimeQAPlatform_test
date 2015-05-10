@@ -8,11 +8,15 @@ import org.json.JSONArray;
 import play.db.ebean.Model;
 import play.mvc.Controller;
 import play.mvc.Result;
+import utils.UserUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static play.libs.Json.toJson;
+import java.util.HashSet;
+import java.util.Set;
+
 
 /**
  * Created by yin on 15-4-9.
@@ -46,7 +50,7 @@ public class UserController extends Controller {
         String password = json.findPath("password").textValue();
         List<String> cNames =  json.findValuesAsText("cIds");
 
-        List<Category> cs = new ArrayList<Category>();
+        Set<Category> cs = new HashSet<Category>();
         for(int i = 0; i < cNames.size(); i ++){
             Category c = Ebean.find(Category.class, Long.parseLong(cNames.get(i)));
             if (c != null){
@@ -60,7 +64,7 @@ public class UserController extends Controller {
         u.setPassword(password);
         u.setExpertises(cs);
         Ebean.save(u);
-        return ok(toJson(u));
+        return ok(UserUtil.getUserJson(u));
     }
 
     public static Result getUser(Long id){
@@ -68,12 +72,16 @@ public class UserController extends Controller {
         if(u == null){
             return badRequest("Id does not exist");
         }
-        return ok(toJson(u));
+        return ok(UserUtil.getUserJson(u));
     }
 
     public static Result getUsers(){
         List<User> users = Ebean.find(User.class).findList();
-        return ok(toJson(users));
+        JSONArray ja = new JSONArray();
+        for (User u : users){
+            ja.put(UserUtil.getUserJson(u));
+        }
+        return ok(ja.toString());
     }
 
     public static Result updateUser(Long id){
@@ -88,7 +96,7 @@ public class UserController extends Controller {
 
         List<String> cNames =  json.findValuesAsText("cIds");
 
-        List<Category> cs = new ArrayList<Category>();
+        Set<Category> cs = new HashSet<Category>();
 
         if(json.findPath("cIds") != null){
             JSONArray ja = new JSONArray(json.findPath("cIds").toString());
@@ -117,7 +125,7 @@ public class UserController extends Controller {
             u.setExpertises(cs);
         }
         Ebean.save(u);
-        return ok(toJson(u));
+        return ok(UserUtil.getUserJson(u));
     }
 
     public static Result deleteUser(Long id){
@@ -126,6 +134,6 @@ public class UserController extends Controller {
             return badRequest("Id does not exist");
         }
         Ebean.delete(u);
-        return ok();
+        return ok("{'result' : 'delete successfully'}");
     }
 }

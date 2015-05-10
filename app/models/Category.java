@@ -21,11 +21,15 @@ public class Category extends Model {
 
     private int followerNumber;
 
-    @ManyToMany
-    private Set<User> users = new HashSet<User>();
+    private String createTime;
 
-    @ManyToMany(mappedBy = "")
-    private Set<Question> questions = new HashSet<Question>();
+    private String createDate;
+
+    @ManyToMany(mappedBy = "expertises")
+    private Set<User> users = new HashSet<>();
+
+    @ManyToMany(mappedBy = "cs")
+    private Set<Question> questions = new HashSet<>();
 
     public Set<User> getUsers() {
         return users;
@@ -65,5 +69,21 @@ public class Category extends Model {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
 }

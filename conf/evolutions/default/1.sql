@@ -18,7 +18,19 @@ create table category (
   c_id                      bigint auto_increment not null,
   name                      varchar(255),
   follower_number           integer,
+  create_time               varchar(255),
+  create_date               varchar(255),
   constraint pk_category primary key (c_id))
+;
+
+create table notification (
+  n_id                      bigint auto_increment not null,
+  q_q_id                    bigint,
+  u_u_id                    bigint,
+  status                    varchar(255),
+  create_time               varchar(255),
+  create_date               varchar(255),
+  constraint pk_notification primary key (n_id))
 ;
 
 create table person (
@@ -35,6 +47,8 @@ create table question (
   q_id                      bigint auto_increment not null,
   title                     varchar(255),
   content                   varchar(255),
+  create_time               varchar(255),
+  create_date               varchar(255),
   u_u_id                    bigint,
   answerer_u_id             bigint,
   constraint pk_question primary key (q_id))
@@ -49,18 +63,6 @@ create table user (
   constraint pk_user primary key (u_id))
 ;
 
-
-create table category_user (
-  category_c_id                  bigint not null,
-  user_u_id                      bigint not null,
-  constraint pk_category_user primary key (category_c_id, user_u_id))
-;
-
-create table category_question (
-  category_c_id                  bigint not null,
-  question_q_id                  bigint not null,
-  constraint pk_category_question primary key (category_c_id, question_q_id))
-;
 
 create table question_category (
   question_q_id                  bigint not null,
@@ -77,20 +79,16 @@ alter table answer add constraint fk_answer_q_1 foreign key (q_q_id) references 
 create index ix_answer_q_1 on answer (q_q_id);
 alter table answer add constraint fk_answer_u_2 foreign key (u_u_id) references user (u_id) on delete restrict on update restrict;
 create index ix_answer_u_2 on answer (u_u_id);
-alter table question add constraint fk_question_u_3 foreign key (u_u_id) references user (u_id) on delete restrict on update restrict;
-create index ix_question_u_3 on question (u_u_id);
-alter table question add constraint fk_question_answerer_4 foreign key (answerer_u_id) references user (u_id) on delete restrict on update restrict;
-create index ix_question_answerer_4 on question (answerer_u_id);
+alter table notification add constraint fk_notification_q_3 foreign key (q_q_id) references question (q_id) on delete restrict on update restrict;
+create index ix_notification_q_3 on notification (q_q_id);
+alter table notification add constraint fk_notification_u_4 foreign key (u_u_id) references user (u_id) on delete restrict on update restrict;
+create index ix_notification_u_4 on notification (u_u_id);
+alter table question add constraint fk_question_u_5 foreign key (u_u_id) references user (u_id) on delete restrict on update restrict;
+create index ix_question_u_5 on question (u_u_id);
+alter table question add constraint fk_question_answerer_6 foreign key (answerer_u_id) references user (u_id) on delete restrict on update restrict;
+create index ix_question_answerer_6 on question (answerer_u_id);
 
 
-
-alter table category_user add constraint fk_category_user_category_01 foreign key (category_c_id) references category (c_id) on delete restrict on update restrict;
-
-alter table category_user add constraint fk_category_user_user_02 foreign key (user_u_id) references user (u_id) on delete restrict on update restrict;
-
-alter table category_question add constraint fk_category_question_category_01 foreign key (category_c_id) references category (c_id) on delete restrict on update restrict;
-
-alter table category_question add constraint fk_category_question_question_02 foreign key (question_q_id) references question (q_id) on delete restrict on update restrict;
 
 alter table question_category add constraint fk_question_category_question_01 foreign key (question_q_id) references question (q_id) on delete restrict on update restrict;
 
@@ -108,19 +106,17 @@ drop table answer;
 
 drop table category;
 
-drop table category_user;
+drop table user_category;
 
-drop table category_question;
+drop table question_category;
+
+drop table notification;
 
 drop table person;
 
 drop table question;
 
-drop table question_category;
-
 drop table user;
-
-drop table user_category;
 
 SET FOREIGN_KEY_CHECKS=1;
 

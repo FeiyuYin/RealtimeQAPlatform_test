@@ -5,11 +5,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import models.Answer;
 import models.Question;
 import models.User;
+import org.json.JSONArray;
 import play.db.ebean.Model;
 import play.mvc.Controller;
 import play.mvc.Result;
+import utils.AnswerUtil;
 
 import java.util.List;
+
 
 import static play.libs.Json.toJson;
 
@@ -64,7 +67,7 @@ public class AnswerController extends Controller {
         a.setQ(q);
         a.setU(u);
         Ebean.save(a);
-        return ok(toJson(a));
+        return ok(AnswerUtil.getAnswerJson(a));
     }
 
     public static Result getAnswer(Long id){
@@ -73,13 +76,17 @@ public class AnswerController extends Controller {
             return badRequest("Id does not exist");
         }
         else{
-            return ok(toJson(a));
+            return ok(AnswerUtil.getAnswerJson(a));
         }
     }
 
     public static Result getAnswers(){
         List<Answer> answers = Ebean.find(Answer.class).findList();
-        return ok(toJson(answers));
+        JSONArray ja = new JSONArray();
+        for (Answer a : answers){
+            ja.put(AnswerUtil.getAnswerJson(a));
+        }
+        return ok(ja.toString());
     }
 
     public static Result updateAnswer(Long id){
@@ -101,7 +108,7 @@ public class AnswerController extends Controller {
         a.setLikes(likes);
         a.setViews(views);
         Ebean.save(a);
-        return ok(toJson(a));
+        return ok(AnswerUtil.getAnswerJson(a));
     }
 
     public static Result deleteAnswer(Long id){
@@ -110,6 +117,6 @@ public class AnswerController extends Controller {
             return badRequest("Id does not exist");
         }
         Ebean.delete(a);
-        return ok();
+        return ok("{'result : 'delete successfully''}");
     }
 }
