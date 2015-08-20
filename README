@@ -1,4 +1,18 @@
-This is your new Play application
-=================================
+This source code comes from Cmpe295A Realtime Q&A Platform projec (By Bingyu Li, Feiyu Yin, Junchen Zhu, Daniel)
 
-This file will be packaged with your application, when using `activator dist`.
+At this stage, the code is for backend only. Basic models are built, the corresponding CRUD methods and controllers are also completed. 
+
+The communication between server and client is via Rest API which is built upon HTTP protocal and Json format.
+
+This project is a play framework project and is built using sbt.
+
+In the source code there are the following directories:
+app: contains the source for models and controllers.
+conf: configuration for this project. 
+logs: log for this project.
+target: bin files for this project.
+test: test cases for this project.
+
+cd into this derectory and type "activator run to start the server". Then the server will listening on 9000 port.
+
+For the demo, please visit https://www.youtube.com/watch?v=9_t2092OleA
