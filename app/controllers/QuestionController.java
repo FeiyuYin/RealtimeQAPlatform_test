@@ -1,5 +1,6 @@
 package controllers;
 
+import Services.QRouting;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -80,6 +81,7 @@ public class QuestionController extends Controller {
         q.setU(u);
         q.setCs(cs);
         Ebean.save(q);
+        QRouting.questionRouting(q);
         return ok(QuestionUtil.getJson(q));
 
     }

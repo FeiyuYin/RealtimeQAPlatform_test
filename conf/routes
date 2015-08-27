@@ -8,7 +8,7 @@ POST    /persons                    controllers.Application.addPerson()
 GET     /persons                    controllers.Application.getPersons()
 POST    /test                       controllers.Application.test()
 
-POST    /signin                      controllers.AuthController.signin()
+POST    /signin                     controllers.AuthController.signin()
 POST    /signup                     controllers.AuthController.signup()
 
 GET     /users/:id                  controllers.UserController.getUser(id: Long)
