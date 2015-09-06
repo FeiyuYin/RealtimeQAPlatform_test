@@ -39,14 +39,7 @@ public class QRouting {
             return;
         }
         for (User u : cand){
-            Notification n = new Notification();
-            n.setType(NotificationUtil.NotificationType.NEWQUESTION);
-            n.setQ(q);
-            n.setU(u);
-            n.setStatus("New");
-            n.setCreateDate(TimeUtil.getCurrentDate());
-            n.setCreateTime(TimeUtil.getCurrentTime());
-            Ebean.save(n);
+            NotificationUtil.generateNewQuestionN(q, u);
         }
     }
 }

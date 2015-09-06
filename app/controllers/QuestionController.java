@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import play.mvc.Controller;
 import play.mvc.Result;
+import utils.NotificationUtil;
 import utils.QuestionUtil;
 import utils.TimeUtil;
 
@@ -178,6 +179,7 @@ public class QuestionController extends Controller {
         q.setCloseTime(TimeUtil.getCurrentTime());
         q.setCloseDate(TimeUtil.getCurrentDate());
         Ebean.save(q);
+        NotificationUtil.generateBestAnswerN(q, answer.getU());
         return ok(QuestionUtil.getJson(q));
     }
 }
