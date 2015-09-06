@@ -24,7 +24,6 @@ public class NotificationController extends Controller {
         for (Notification n : ns){
             ja.put(NotificationUtil.getJson(n));
         }
-
         return ok(ja.toString());
     }
 }
