@@ -3,29 +3,21 @@ package controllers;
 import Services.QRouting;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Answer;
 import models.Category;
 import models.Question;
 import models.User;
-import org.jboss.netty.util.internal.ReusableIterator;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-import play.db.ebean.Model;
-import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import utils.QuestionUtil;
 import utils.TimeUtil;
 
-import java.lang.reflect.Array;
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
-
-import static play.libs.Json.toJson;
 
 /**
  * Created by yin on 15-4-9.
@@ -76,6 +68,7 @@ public class QuestionController extends Controller {
 
         q.setCreateTime(TimeUtil.getCurrentTime());
         q.setCreateDate(TimeUtil.getCurrentDate());
+        q.setIsOpen(true);
         q.setContent(qContent);
         q.setTitle(qTitle);
         q.setU(u);
@@ -106,7 +99,6 @@ public class QuestionController extends Controller {
     }
 
     public static Result updateQuestion(Long id){
-        setAnswerer(id);
         Question q = Ebean.find(Question.class, id);
         if(q == null){
             return badRequest("Id does not exist");
@@ -115,6 +107,10 @@ public class QuestionController extends Controller {
         JsonNode json = request().body().asJson();
         if(json == null){
             return badRequest("Expecting a Json object");
+        }
+
+        if (json.findPath("answerId") != null){
+            return setAnswerer(id);
         }
 
         Set<Category> cs = new HashSet<Category>();
@@ -153,11 +149,7 @@ public class QuestionController extends Controller {
         }
         for(Category c : q.getCs()){
             System.out.println(c.getQuestions().size());
-//            c.getQuestions().remove(q);
-//            Ebean.save(c);
         }
-//        q.setCs(null);
-//        q.save();
         Ebean.delete(q);
         return ok("{'result' : 'delete successfully'}");
     }
@@ -171,15 +163,20 @@ public class QuestionController extends Controller {
         if(json == null){
             return badRequest("Expecting an Json object");
         }
-        if(json.findPath("aerId") == null){
-            return badRequest("No answererId field");
+        if(json.findPath("answerId") == null){
+            return badRequest("No answerId field");
         }
-        Long answererId = json.findPath("aerId").longValue();
-        User answerer = Ebean.find(User.class, answererId);
-        if(answerer == null){
-            return badRequest("user Id does not exist");
+        Long answererId = json.findPath("answerId").longValue();
+        Answer answer = Ebean.find(Answer.class, answererId);
+        if(answer == null){
+            return badRequest("Answer Id does not exist");
         }
-        q.setAnswerer(answerer);
+        answer.setIsBest(true);
+        Ebean.save(answer);
+        q.setBestAnswer(answer);
+        q.setIsOpen(false);
+        q.setCloseTime(TimeUtil.getCurrentTime());
+        q.setCloseDate(TimeUtil.getCurrentDate());
         Ebean.save(q);
         return ok(QuestionUtil.getJson(q));
     }

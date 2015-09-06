@@ -27,22 +27,20 @@ public class Question extends Model {
 
     private String createDate;
 
+    private String closeTime;
+
+    private String closeDate;
+
+    private boolean isOpen;
+
     @ManyToOne
     private User u;
 
-    @ManyToOne
-    private User answerer;
+    @OneToOne
+    private Answer bestAnswer;
 
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Category> cs = new HashSet<>();
-
-    public User getAnswerer() {
-        return answerer;
-    }
-
-    public void setAnswerer(User answerer) {
-        this.answerer = answerer;
-    }
 
     public Set<Category> getCs() {
         return cs;
@@ -100,5 +98,38 @@ public class Question extends Model {
         this.createTime = createTime;
     }
 
+
+    public String getCloseTime() {
+        return closeTime;
+    }
+
+    public void setCloseTime(String closeTime) {
+        this.closeTime = closeTime;
+    }
+
+    public String getCloseDate() {
+        return closeDate;
+    }
+
+    public void setCloseDate(String closeDate) {
+        this.closeDate = closeDate;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setIsOpen(boolean isOpen) {
+        this.isOpen = isOpen;
+    }
+
+
+    public Answer getBestAnswer() {
+        return bestAnswer;
+    }
+
+    public void setBestAnswer(Answer bestAnswer) {
+        this.bestAnswer = bestAnswer;
+    }
 
 }

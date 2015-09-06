@@ -1,12 +1,11 @@
 package models;
 
 import play.db.ebean.Model;
+import utils.NotificationUtil;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import java.util.Stack;
-
 /**
  * Created by yin on 15-5-9.
  */
@@ -27,6 +26,8 @@ public class Notification extends Model {
     private String createTime;
 
     private String createDate;
+
+    private NotificationUtil.NotificationType type;
 
     public long getnId() {
         return nId;
@@ -74,5 +75,13 @@ public class Notification extends Model {
 
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
+    }
+
+    public String getType(){
+        return type.toString();
+    }
+
+    public void setType(NotificationUtil.NotificationType type){
+        this.type = type;
     }
 }

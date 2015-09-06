@@ -17,9 +17,12 @@ public class QuestionUtil {
         result.put("uId", q.getU().getuId());
         result.put("title", q.getTitle());
         result.put("content", q.getContent());
-        result.put("aerId", q.getAnswerer() == null ? null :q.getAnswerer().getuId());
+        result.put("bestAnswer", q.getBestAnswer() == null ? null :q.getBestAnswer().getaId());
+        result.put("isOpen", q.isOpen());
         result.put("createTime", q.getCreateTime());
         result.put("createDate", q.getCreateDate());
+        result.put("closeTime", q.getCloseTime());
+        result.put("closeDate", q.getCloseDate());
 
         JSONArray ja = new JSONArray();
         for(Category c : q.getCs()){

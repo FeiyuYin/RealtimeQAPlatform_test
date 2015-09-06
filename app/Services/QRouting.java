@@ -5,6 +5,7 @@ import models.Category;
 import models.Notification;
 import models.Question;
 import models.User;
+import utils.NotificationUtil;
 import utils.TimeUtil;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class QRouting {
         }
         for (User u : cand){
             Notification n = new Notification();
+            n.setType(NotificationUtil.NotificationType.NEWQUESTION);
             n.setQ(q);
             n.setU(u);
             n.setStatus("New");
