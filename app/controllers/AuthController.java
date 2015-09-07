@@ -7,6 +7,7 @@ import play.db.ebean.Model;
 import play.mvc.Controller;
 
 import play.mvc.Result;
+import utils.UserUtil;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class AuthController extends Controller {
 
         List<User> us = Ebean.find(User.class).where().eq("email", email).findList();
         if(us != null && us.size() != 0 && us.get(0).getPassword().equals(password)){
-            return ok("login successfully");
+            return ok(UserUtil.getUserJson(us.get(0)));
         }
         else{
             return badRequest("Email not exist or wrong password");
