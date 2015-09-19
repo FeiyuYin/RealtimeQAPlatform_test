@@ -30,6 +30,8 @@ create table notification (
   status                    varchar(255),
   create_time               varchar(255),
   create_date               varchar(255),
+  type                      integer,
+  constraint ck_notification_type check (type in (0,1,2)),
   constraint pk_notification primary key (n_id))
 ;
 
@@ -49,8 +51,12 @@ create table question (
   content                   varchar(255),
   create_time               varchar(255),
   create_date               varchar(255),
+  close_time                varchar(255),
+  close_date                varchar(255),
+  is_open                   tinyint(1) default 0,
   u_u_id                    bigint,
-  answerer_u_id             bigint,
+  best_answer_a_id          bigint,
+  credit                    integer,
   constraint pk_question primary key (q_id))
 ;
 
@@ -60,6 +66,8 @@ create table user (
   last_name                 varchar(255),
   email                     varchar(255),
   password                  varchar(255),
+  credit                    integer,
+  exp                       integer,
   constraint pk_user primary key (u_id))
 ;
 
@@ -85,8 +93,8 @@ alter table notification add constraint fk_notification_u_4 foreign key (u_u_id)
 create index ix_notification_u_4 on notification (u_u_id);
 alter table question add constraint fk_question_u_5 foreign key (u_u_id) references user (u_id) on delete restrict on update restrict;
 create index ix_question_u_5 on question (u_u_id);
-alter table question add constraint fk_question_answerer_6 foreign key (answerer_u_id) references user (u_id) on delete restrict on update restrict;
-create index ix_question_answerer_6 on question (answerer_u_id);
+alter table question add constraint fk_question_bestAnswer_6 foreign key (best_answer_a_id) references answer (a_id) on delete restrict on update restrict;
+create index ix_question_bestAnswer_6 on question (best_answer_a_id);
 
 
 
