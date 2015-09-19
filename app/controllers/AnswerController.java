@@ -103,14 +103,18 @@ public class AnswerController extends Controller {
             return badRequest("Expecting a Json input");
         }
 
-        String aContent = json.findPath("content").asText();
-        boolean isBest = json.findPath("isBest").asBoolean();
-        int views = json.findPath("views").asInt();
-        int likes = json.findPath("likes").asInt();
-        a.setContent(aContent);
-        a.setIsBest(isBest);
-        a.setLikes(likes);
-        a.setViews(views);
+        if (json.findPath("content").textValue() != null){
+            a.setContent(json.findPath("content").textValue());
+        }
+        if (json.findPath("isBest").textValue() != null){
+            a.setIsBest(json.findPath("isBest").booleanValue());
+        }
+        if (json.findPath("views").textValue() != null){
+            a.setViews(json.findPath("views").intValue());
+        }
+        if (json.findPath("likes").textValue() != null){
+            a.setLikes(json.findPath("likes").intValue());
+        }
         Ebean.save(a);
         return ok(AnswerUtil.getAnswerJson(a));
     }

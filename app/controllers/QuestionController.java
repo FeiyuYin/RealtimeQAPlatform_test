@@ -142,11 +142,14 @@ public class QuestionController extends Controller {
             q.setCs(cs);
         }
 
-        if (json.findPath("title") != null){
+        if (json.findPath("title").textValue() != null){
            q.setTitle(json.findPath("title").textValue());
         }
-        if (json.findPath("content") != null){
+        if (json.findPath("content").textValue() != null){
             q.setContent(json.findPath("content").textValue());
+        }
+        if (json.findPath("credit").textValue() != null){
+            q.setCredit(json.findPath("credit").intValue());
         }
         Ebean.save(q);
         return ok(QuestionUtil.getJson(q));
