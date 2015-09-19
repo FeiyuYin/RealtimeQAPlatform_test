@@ -10,6 +10,7 @@ import play.db.ebean.Model;
 import play.mvc.Controller;
 import play.mvc.Result;
 import utils.AnswerUtil;
+import utils.ExpUtil;
 import utils.NotificationUtil;
 
 import java.util.List;
@@ -68,6 +69,7 @@ public class AnswerController extends Controller {
         a.setQ(q);
         a.setU(u);
         Ebean.save(a);
+        ExpUtil.changeExp(u, ExpUtil.ANSWEREXP, true);
         NotificationUtil.generateNewAnswerN(q, q.getU());
         return ok(AnswerUtil.getAnswerJson(a));
     }

@@ -42,6 +42,16 @@ public class Question extends Model {
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Category> cs = new HashSet<>();
 
+    private int credit;
+
+    public int getCredit() {
+        return credit;
+    }
+
+    public void setCredit(int credit) {
+        this.credit = credit;
+    }
+
     public Set<Category> getCs() {
         return cs;
     }

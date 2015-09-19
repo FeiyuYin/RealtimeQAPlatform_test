@@ -24,6 +24,26 @@ public class User extends Model {
 
     private String password;
 
+    private int credit;
+
+    private int exp;
+
+    public int getCredit() {
+        return credit;
+    }
+
+    public void setCredit(int credit) {
+        this.credit = credit;
+    }
+
+    public int getExp() {
+        return exp;
+    }
+
+    public void setExp(int exp) {
+        this.exp = exp;
+    }
+
     public Set<Category> getExpertises() {
         return expertises;
     }

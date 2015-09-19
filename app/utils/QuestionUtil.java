@@ -16,6 +16,7 @@ public class QuestionUtil {
         result.put("qId", q.getqId());
         result.put("uId", q.getU().getuId());
         result.put("title", q.getTitle());
+        result.put("credit", q.getCredit());
         result.put("content", q.getContent());
         result.put("bestAnswer", q.getBestAnswer() == null ? null :q.getBestAnswer().getaId());
         result.put("isOpen", q.isOpen());

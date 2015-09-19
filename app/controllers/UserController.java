@@ -110,16 +110,16 @@ public class UserController extends Controller {
             }
         }
 
-        if(json.findPath("firstName") != null){
+        if(json.findPath("firstName").textValue() != null){
             u.setFirstName(json.findPath("firstName").textValue());
         }
-        if(json.findPath("lastName") != null){
+        if(json.findPath("lastName").textValue() != null){
             u.setLastName(json.findPath("lastName").textValue());
         }
-        if(json.findPath("email") != null){
+        if(json.findPath("email").textValue() != null){
             u.setEmail(json.findPath("email").textValue());
         }
-        if(json.findPath("password") != null){
+        if(json.findPath("password").textValue() != null){
             u.setPassword(json.findPath("password").textValue());
         }
         if(cs.size() != 0){

@@ -48,10 +48,10 @@ public class AuthController extends Controller {
         if(json == null){
             return badRequest("Expecting a Json input");
         }
-        if(json.findPath("email") == null){
+        if(json.findPath("email").textValue() == null){
             return badRequest("No email field");
         }
-        if(json.findPath("password") == null){
+        if(json.findPath("password").textValue() == null){
             return badRequest("No password field");
         }
 
@@ -61,6 +61,7 @@ public class AuthController extends Controller {
         User u = new User();
         u.setEmail(email);
         u.setPassword(password);
+        u.setCredit(100);
         Ebean.save(u);
         return ok(toJson(u));
     }

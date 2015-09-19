@@ -20,6 +20,8 @@ public class UserUtil {
         result.put("firstName", u.getFirstName());
         result.put("lastName", u.getLastName());
         result.put("email", u.getEmail());
+        result.put("credit", u.getCredit());
+        result.put("exp", u.getExp());
 
         JSONArray ja = new JSONArray();
         for (Category c : u.getExpertises()){

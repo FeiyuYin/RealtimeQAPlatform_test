@@ -9,11 +9,10 @@ import models.Question;
 import models.User;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import play.mvc.Controller;
 import play.mvc.Result;
-import utils.NotificationUtil;
-import utils.QuestionUtil;
-import utils.TimeUtil;
+import utils.*;
 
 import java.sql.Time;
 import java.util.List;
@@ -49,9 +48,16 @@ public class QuestionController extends Controller {
         if(json.findValuesAsText("cIds") == null){
             return badRequest("No cIds field");
         }
+        if (json.findValuesAsText("credit") == null){
+            return badRequest("No credit field");
+        }
 
         String qTitle = json.findPath("title").textValue();
         String qContent = json.findPath("content").textValue();
+        int qCredit = json.findPath("credit").intValue();
+        if (qCredit > u.getCredit()){
+            return badRequest("Not enough credit");
+        }
 
         Question q = new Question();
         Set<Category> cs = new HashSet<>();
@@ -72,9 +78,12 @@ public class QuestionController extends Controller {
         q.setIsOpen(true);
         q.setContent(qContent);
         q.setTitle(qTitle);
+        q.setCredit(qCredit);
         q.setU(u);
         q.setCs(cs);
         Ebean.save(q);
+        CreditUtil.changeCredit(u, qCredit, false);
+        ExpUtil.changeExp(u, ExpUtil.QUESTIONEXP, true);
         QRouting.questionRouting(q);
         return ok(QuestionUtil.getJson(q));
 
@@ -111,7 +120,7 @@ public class QuestionController extends Controller {
         }
 
         if (json.findPath("answerId") != null){
-            return setAnswerer(id);
+            return setBestAnswer(id);
         }
 
         Set<Category> cs = new HashSet<Category>();
@@ -155,7 +164,7 @@ public class QuestionController extends Controller {
         return ok("{'result' : 'delete successfully'}");
     }
 
-    public static Result setAnswerer(Long id){
+    public static Result setBestAnswer(Long id){
         Question q = Ebean.find(Question.class, id);
         if(q == null){
             return badRequest("Id does not exist");
@@ -167,8 +176,8 @@ public class QuestionController extends Controller {
         if(json.findPath("answerId") == null){
             return badRequest("No answerId field");
         }
-        Long answererId = json.findPath("answerId").longValue();
-        Answer answer = Ebean.find(Answer.class, answererId);
+        Long answerId = json.findPath("answerId").longValue();
+        Answer answer = Ebean.find(Answer.class, answerId);
         if(answer == null){
             return badRequest("Answer Id does not exist");
         }
@@ -179,6 +188,10 @@ public class QuestionController extends Controller {
         q.setCloseTime(TimeUtil.getCurrentTime());
         q.setCloseDate(TimeUtil.getCurrentDate());
         Ebean.save(q);
+        User u = answer.getU();
+        CreditUtil.changeCredit(u, q.getCredit(), true);
+        ExpUtil.changeExp(u, ExpUtil.BESTANSWEREXP, true);
+        Ebean.save(u);
         NotificationUtil.generateBestAnswerN(q, answer.getU());
         return ok(QuestionUtil.getJson(q));
     }
