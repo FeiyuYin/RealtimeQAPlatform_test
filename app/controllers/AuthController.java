@@ -62,6 +62,13 @@ public class AuthController extends Controller {
         u.setEmail(email);
         u.setPassword(password);
         u.setCredit(100);
+
+        if(json.findPath("firstName").textValue() != null){
+            u.setFirstName(json.findPath("firstName").textValue());
+        }
+        if(json.findPath("lastName").textValue() != null){
+            u.setLastName(json.findPath("lastName").textValue());
+        }
         Ebean.save(u);
         return ok(toJson(u));
     }

@@ -2,23 +2,20 @@ package Services;
 
 import com.avaje.ebean.Ebean;
 import models.Category;
-import models.Notification;
 import models.Question;
 import models.User;
 import utils.NotificationUtil;
-import utils.TimeUtil;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by yin on 15-8-25.
  */
 public class QRouting {
+    public static int UPLIMIT = 4;
     public static void questionRouting(Question q){
         ArrayList<User> cand = getCandidates(q);
-        rout(q, cand);
+        rout(q, cand, UPLIMIT);
     }
 
     private static ArrayList<User> getCandidates(Question q){
@@ -34,12 +31,19 @@ public class QRouting {
         return cand;
     }
 
-    private static void rout(Question q, ArrayList<User> cand){
+    private static void rout(Question q, ArrayList<User> cand, int num){
         if (q == null || cand == null || cand.size() == 0){
             return;
         }
-        for (User u : cand){
-            NotificationUtil.generateNewQuestionN(q, u);
+        Collections.sort(cand, new Comparator<User>() {
+            @Override
+            public int compare(User u1, User u2) {
+                return Integer.compare(u2.getExp(), u1.getExp());
+            }
+        });
+
+        for (int i = 0; i < cand.size() && i < num; i ++){
+            NotificationUtil.generateNewQuestionN(q, cand.get(i));
         }
     }
 }
