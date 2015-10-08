@@ -39,3 +39,4 @@ GET     /notification/:id           controllers.NotificationController.getNotifi
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+OPTIONS /*all                       controllers.Application.preflight(all)
