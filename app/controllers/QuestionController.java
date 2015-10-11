@@ -3,18 +3,22 @@ package controllers;
 import Services.QRouting;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import models.Answer;
 import models.Category;
 import models.Question;
 import models.User;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.omg.CORBA.PUBLIC_MEMBER;
+import org.json.JSONObject;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import utils.*;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
@@ -101,11 +105,18 @@ public class QuestionController extends Controller {
 
     public static Result getQuestions(){
         List<Question> questions = Ebean.find(Question.class).findList();
-        JSONArray ja = new JSONArray();
+
+        ObjectNode result = Json.newObject();
+        ObjectMapper mapper = new ObjectMapper();
+
+        ArrayList<ObjectNode> nodeArray = new ArrayList<>();
         for (Question q : questions){
-            ja.put(QuestionUtil.getJson(q));
+            nodeArray.add(QuestionUtil.getJson(q));
         }
-        return ok(ja.toString());
+
+        ArrayNode array = mapper.valueToTree(nodeArray);
+        result.putArray("results").addAll(array);
+        return ok(result);
     }
 
     public static Result updateQuestion(Long id){

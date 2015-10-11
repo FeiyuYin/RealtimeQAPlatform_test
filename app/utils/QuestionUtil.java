@@ -1,17 +1,21 @@
 package utils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Category;
 import models.Question;
 import org.json.JSONArray;
 import play.libs.Json;
 
+import java.util.ArrayList;
+
 /**
  * Created by yin on 15-5-10.
  */
 public class QuestionUtil {
 
-    public static String getJson(Question q){
+    public static ObjectNode getJson(Question q){
         ObjectNode result = Json.newObject();
         result.put("qId", q.getqId());
         result.put("uId", q.getU().getuId());
@@ -25,11 +29,16 @@ public class QuestionUtil {
         result.put("closeTime", q.getCloseTime());
         result.put("closeDate", q.getCloseDate());
 
-        JSONArray ja = new JSONArray();
+        ObjectMapper mapper = new ObjectMapper();
+
+        ArrayList<Long> cIdArray = new ArrayList<>();
         for(Category c : q.getCs()){
-            ja.put(c.getcId());
+            cIdArray.add(c.getcId());
         }
-        result.put("cIds", ja.toString());
-        return result.toString();
+
+        ArrayNode array = mapper.valueToTree(cIdArray);
+        result.putArray("cIds").addAll(array);
+
+        return result;
     }
 }
