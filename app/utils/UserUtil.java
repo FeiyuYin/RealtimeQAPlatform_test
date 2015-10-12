@@ -1,19 +1,19 @@
 package utils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Category;
 import models.User;
-import org.json.JSONArray;
-import org.omg.PortableServer.POAPackage.ObjectNotActive;
 import play.libs.Json;
-import sun.org.mozilla.javascript.json.JsonParser;
+import java.util.ArrayList;
 
 /**
  * Created by yin on 15-5-10.
  */
 public class UserUtil {
 
-    public static String getUserJson(User u){
+    public static ObjectNode getUserJson(User u){
         ObjectNode result = Json.newObject();
         result.put("uId", u.getuId());
         result.put("password", u.getPassword());
@@ -23,11 +23,15 @@ public class UserUtil {
         result.put("credit", u.getCredit());
         result.put("exp", u.getExp());
 
-        JSONArray ja = new JSONArray();
+        ArrayList<Long> cIdArray = new ArrayList<>();
         for (Category c : u.getExpertises()){
-            ja.put(c.getcId());
+            cIdArray.add(c.getcId());
         }
-        result.put("expertises", ja.toString());
-        return result.toString();
+
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode array = mapper.valueToTree(cIdArray);
+        result.putArray("expertises").addAll(array);
+
+        return result;
     }
 }

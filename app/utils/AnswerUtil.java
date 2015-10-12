@@ -9,7 +9,7 @@ import play.libs.Json;
  */
 public class AnswerUtil {
 
-    public static String getAnswerJson(Answer a){
+    public static ObjectNode getAnswerJson(Answer a){
         ObjectNode result = Json.newObject();
         result.put("aId", a.getaId());
         result.put("content", a.getContent());
@@ -18,6 +18,6 @@ public class AnswerUtil {
         result.put("views", a.getViews());
         result.put("q", a.getQ().getqId());
         result.put("u", a.getU().getuId());
-        return result.toString();
+        return result;
     }
 }

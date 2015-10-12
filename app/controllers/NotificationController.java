@@ -1,13 +1,17 @@
 package controllers;
 
 import com.avaje.ebean.Ebean;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Notification;
 import models.User;
-import org.json.JSONArray;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import utils.NotificationUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,13 +25,16 @@ public class NotificationController extends Controller {
             return badRequest("User Id does not exist");
         }
         List<Notification> ns = Ebean.find(Notification.class).findList();
-        JSONArray ja = new JSONArray();
+        ArrayList<ObjectNode> nodeArray = new ArrayList<>();
         for (Notification n : ns){
-            if (n.getU() == u){
-                ja.put(NotificationUtil.getJson(n));
-            }
+            nodeArray.add(NotificationUtil.getJson(n));
         }
-        return ok(ja.toString());
+
+        ObjectNode result = Json.newObject();
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode array = mapper.valueToTree(nodeArray);
+        result.putArray("results").addAll(array);
+        return ok(result);
     }
 
     public static Result getNotification(Long id){

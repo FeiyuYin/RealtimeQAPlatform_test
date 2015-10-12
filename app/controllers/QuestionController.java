@@ -11,7 +11,6 @@ import models.Question;
 import models.User;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -105,15 +104,13 @@ public class QuestionController extends Controller {
 
     public static Result getQuestions(){
         List<Question> questions = Ebean.find(Question.class).findList();
-
-        ObjectNode result = Json.newObject();
-        ObjectMapper mapper = new ObjectMapper();
-
         ArrayList<ObjectNode> nodeArray = new ArrayList<>();
         for (Question q : questions){
             nodeArray.add(QuestionUtil.getJson(q));
         }
 
+        ObjectNode result = Json.newObject();
+        ObjectMapper mapper = new ObjectMapper();
         ArrayNode array = mapper.valueToTree(nodeArray);
         result.putArray("results").addAll(array);
         return ok(result);

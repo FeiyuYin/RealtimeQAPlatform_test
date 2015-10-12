@@ -2,21 +2,21 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Answer;
 import models.Question;
 import models.User;
-import org.json.JSONArray;
-import play.db.ebean.Model;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import utils.AnswerUtil;
 import utils.ExpUtil;
 import utils.NotificationUtil;
 
+import java.util.ArrayList;
 import java.util.List;
-
-
-import static play.libs.Json.toJson;
 
 /**
  * Created by yin on 15-4-9.
@@ -86,11 +86,16 @@ public class AnswerController extends Controller {
 
     public static Result getAnswers(){
         List<Answer> answers = Ebean.find(Answer.class).findList();
-        JSONArray ja = new JSONArray();
+        ArrayList<ObjectNode> nodeArray = new ArrayList<>();
         for (Answer a : answers){
-            ja.put(AnswerUtil.getAnswerJson(a));
+            nodeArray.add(AnswerUtil.getAnswerJson(a));
         }
-        return ok(ja.toString());
+
+        ObjectNode result = Json.newObject();
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode array = mapper.valueToTree(nodeArray);
+        result.putArray("results").addAll(array);
+        return ok(result);
     }
 
     public static Result updateAnswer(Long id){

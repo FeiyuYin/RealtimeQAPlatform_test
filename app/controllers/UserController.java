@@ -2,19 +2,20 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Category;
 import models.User;
 import org.json.JSONArray;
-import play.db.ebean.Model;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import utils.UserUtil;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-import static play.libs.Json.toJson;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -78,11 +79,15 @@ public class UserController extends Controller {
 
     public static Result getUsers(){
         List<User> users = Ebean.find(User.class).findList();
-        JSONArray ja = new JSONArray();
+        ArrayList<ObjectNode> nodeArray = new ArrayList<>();
         for (User u : users){
-            ja.put(UserUtil.getUserJson(u));
+            nodeArray.add(UserUtil.getUserJson(u));
         }
-        return ok(ja.toString());
+        ObjectNode result = Json.newObject();
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode array = mapper.valueToTree(nodeArray);
+        result.putArray("results").addAll(array);
+        return ok(result);
     }
 
     public static Result updateUser(Long id){

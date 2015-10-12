@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Category;
 import models.Question;
-import org.json.JSONArray;
 import play.libs.Json;
 
 import java.util.ArrayList;
@@ -29,13 +28,12 @@ public class QuestionUtil {
         result.put("closeTime", q.getCloseTime());
         result.put("closeDate", q.getCloseDate());
 
-        ObjectMapper mapper = new ObjectMapper();
-
         ArrayList<Long> cIdArray = new ArrayList<>();
         for(Category c : q.getCs()){
             cIdArray.add(c.getcId());
         }
 
+        ObjectMapper mapper = new ObjectMapper();
         ArrayNode array = mapper.valueToTree(cIdArray);
         result.putArray("cIds").addAll(array);
 

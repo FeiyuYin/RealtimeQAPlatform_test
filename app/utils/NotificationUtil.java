@@ -15,7 +15,7 @@ public class NotificationUtil {
         NEWQUESTION, NEWANSWER, BESTANSWER
     }
 
-    public static String getJson(Notification n){
+    public static ObjectNode getJson(Notification n){
         ObjectNode result = Json.newObject();
         result.put("nId", n.getnId());
         result.put("uId", n.getU().getuId());
@@ -25,7 +25,7 @@ public class NotificationUtil {
         result.put("status", n.getStatus());
         result.put("type", n.getType());
 
-        return result.toString();
+        return result;
     }
 
     public static void generateNewQuestionN(Question q, User u){

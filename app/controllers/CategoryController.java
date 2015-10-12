@@ -2,16 +2,17 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Category;
-import org.json.JSONArray;
-import play.db.ebean.Model;
+import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Controller;
 import utils.CatUtil;
 import utils.TimeUtil;
 
-import java.lang.reflect.Array;
-import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 import static play.libs.Json.toJson;
@@ -55,11 +56,16 @@ public class CategoryController extends Controller {
 
     public static Result getCategories(){
         List<Category> cs = Ebean.find(Category.class).findList();
-        JSONArray ja = new JSONArray();
+        ArrayList<ObjectNode> nodeArray = new ArrayList<>();
         for (Category c : cs){
-            ja.put(CatUtil.getCatJson(c));
+            nodeArray.add(CatUtil.getCatJson(c));
         }
-        return ok(ja.toString());
+
+        ObjectNode result = Json.newObject();
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode array = mapper.valueToTree(nodeArray);
+        result.putArray("results").addAll(array);
+        return ok(result);
     }
 
     public static Result updateCategory(Long id){
