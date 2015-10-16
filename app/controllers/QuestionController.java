@@ -116,6 +116,25 @@ public class QuestionController extends Controller {
         return ok(result);
     }
 
+    public static Result getUserQuestions(Long userId){
+        User u = Ebean.find(User.class, userId);
+        if(u == null){
+            return badRequest("Id does not exist");
+        }
+        List<Question> questions = Ebean.find(Question.class).findList();
+        ArrayList<ObjectNode> nodeArray = new ArrayList<>();
+        for (Question q : questions){
+            if (q.getU().getuId() == userId){
+                nodeArray.add(QuestionUtil.getJson(q));
+            }
+        }
+        ObjectNode result = Json.newObject();
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode array = mapper.valueToTree(nodeArray);
+        result.putArray("results").addAll(array);
+        return ok(result);
+    }
+
     public static Result updateQuestion(Long id){
         Question q = Ebean.find(Question.class, id);
         if(q == null){

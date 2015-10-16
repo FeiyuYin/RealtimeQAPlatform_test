@@ -98,6 +98,22 @@ public class AnswerController extends Controller {
         return ok(result);
     }
 
+    public static Result getQuestionAnswer(Long qId){
+        List<Answer> answers = Ebean.find(Answer.class).findList();
+        ArrayList<ObjectNode> nodeArray = new ArrayList<>();
+        for (Answer a : answers){
+            if (a.getQ().getqId() == qId){
+                nodeArray.add(AnswerUtil.getAnswerJson(a));
+            }
+        }
+
+        ObjectNode result = Json.newObject();
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode array = mapper.valueToTree(nodeArray);
+        result.putArray("results").addAll(array);
+        return ok(result);
+    }
+
     public static Result updateAnswer(Long id){
         Answer a = Ebean.find(Answer.class, id);
         if(a == null){

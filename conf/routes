@@ -18,12 +18,14 @@ DELETE  /users/:id                  controllers.UserController.deleteUser(id: Lo
 
 POST    /questions                  controllers.QuestionController.createQuestion()
 GET     /questions/:id              controllers.QuestionController.getQuestion(id: Long)
+GET     /userquestions/:userId      controllers.QuestionController.getUserQuestions(userId: Long)
 GET     /questions                  controllers.QuestionController.getQuestions()
 PUT     /questions/:id              controllers.QuestionController.updateQuestion(id: Long)
 DELETE  /questions/:id              controllers.QuestionController.deleteQuestion(id: Long)
 
 POST    /answers                    controllers.AnswerController.createAnswer()
 GET     /answers/:id                controllers.AnswerController.getAnswer(id: Long)
+GET     /questionanswers/:qId       controllers.AnswerController.getQuestionAnswer(qId: Long)
 GET     /answers                    controllers.AnswerController.getAnswers()
 PUT     /answers/:id                controllers.AnswerController.updateAnswer(id: Long)
 DELETE  /answers/:id                controllers.AnswerController.deleteAnswer(id: Long)
@@ -36,6 +38,7 @@ DELETE  /categories/:id             controllers.CategoryController.deleteCategor
 
 GET     /notifications/:id          controllers.NotificationController.getNotifications(id: Long)
 GET     /notification/:id           controllers.NotificationController.getNotification(id: Long)
+GET     /usernotification/:userId   controllers.NotificationController.getUserNotification(userId: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
