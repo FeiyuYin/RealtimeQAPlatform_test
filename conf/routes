@@ -19,6 +19,7 @@ DELETE  /users/:id                  controllers.UserController.deleteUser(id: Lo
 POST    /questions                  controllers.QuestionController.createQuestion()
 GET     /questions/:id              controllers.QuestionController.getQuestion(id: Long)
 GET     /userquestions/:userId      controllers.QuestionController.getUserQuestions(userId: Long)
+GET     /answerquestions/:userId    controllers.QuestionController.getAnswerQuestions(userId: Long)
 GET     /questions                  controllers.QuestionController.getQuestions()
 PUT     /questions/:id              controllers.QuestionController.updateQuestion(id: Long)
 DELETE  /questions/:id              controllers.QuestionController.deleteQuestion(id: Long)

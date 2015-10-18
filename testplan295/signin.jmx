@@ -31,7 +31,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;email&quot;: &quot;wang&quot;, &quot;password&quot;: &quot;wang&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;email&quot;: &quot;aa&quot;, &quot;password&quot;: &quot;ii&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name"></stringProp>
