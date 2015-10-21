@@ -54,6 +54,7 @@ create table question (
   close_time                varchar(255),
   close_date                varchar(255),
   is_open                   tinyint(1) default 0,
+  image_urls_string         varchar(255),
   u_u_id                    bigint,
   best_answer_a_id          bigint,
   credit                    integer,
