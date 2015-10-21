@@ -37,6 +37,15 @@ public class QuestionUtil {
         ArrayNode array = mapper.valueToTree(cIdArray);
         result.putArray("cIds").addAll(array);
 
+        ArrayList<String> imageUrls = new ArrayList<String>();
+        for (String s : q.getImageUrlsString().split("###")){
+            if (s.length() != 0){
+                imageUrls.add(s);
+            }
+        }
+        array = mapper.valueToTree(imageUrls);
+        result.putArray("cIds").addAll(array);
+
         return result;
     }
 }

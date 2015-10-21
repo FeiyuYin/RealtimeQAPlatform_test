@@ -33,7 +33,7 @@ public class QuestionController extends Controller {
             return badRequest("Expecting a Json object");
         }
 
-        if(json.findPath("uId") == null){
+        if(json.findValue("uId") == null){
             return badRequest("No uId field");
         }
 
@@ -42,19 +42,21 @@ public class QuestionController extends Controller {
         if(u == null){
             return badRequest("user Id does not exist");
         }
-        if(json.findPath("title") == null){
+        if(json.findValue("title") == null){
             return badRequest("No title field");
         }
-        if(json.findPath("content") == null){
+        if(json.findValue("content") == null){
             return badRequest("No content field");
         }
-        if(json.findValuesAsText("cIds") == null){
+        if(json.findValue("cIds") == null){
             return badRequest("No cIds field");
         }
-        if (json.findValuesAsText("credit") == null){
+        if (json.findValue("credit") == null){
             return badRequest("No credit field");
         }
-
+        if(json.findValue("imageUrls") == null){
+            return badRequest("No imageUrl field");
+        }
         String qTitle = json.findPath("title").textValue();
         String qContent = json.findPath("content").textValue();
         int qCredit = json.findPath("credit").intValue();
@@ -64,16 +66,20 @@ public class QuestionController extends Controller {
 
         Question q = new Question();
         Set<Category> cs = new HashSet<>();
-        if(json.findPath("cIds") != null){
-            JSONArray ja = new JSONArray(json.findPath("cIds").toString());
-            for(int i = 0; i < ja.length(); i ++){
-                Long cid = Long.parseLong(ja.get(i).toString());
-                Category c = Ebean.find(Category.class, cid);
-                if(c != null){
-                    c.getQuestions().add(q);
-                    cs.add(c);
-                }
+        JSONArray ja = new JSONArray(json.findPath("cIds").toString());
+        for(int i = 0; i < ja.length(); i ++){
+            Long cid = Long.parseLong(ja.get(i).toString());
+            Category c = Ebean.find(Category.class, cid);
+            if(c != null){
+               c.getQuestions().add(q);
+               cs.add(c);
             }
+        }
+
+        ja = new JSONArray(json.findPath("imageUrls").toString());
+        String urlsString = "";
+        for(int i = 0; i < ja.length(); i ++){
+            urlsString += ("###" + ja.get(i).toString());
         }
 
         q.setCreateTime(TimeUtil.getCurrentTime());
@@ -84,6 +90,7 @@ public class QuestionController extends Controller {
         q.setCredit(qCredit);
         q.setU(u);
         q.setCs(cs);
+        q.setImageUrlsString(urlsString);
         Ebean.save(q);
         CreditUtil.changeCredit(u, qCredit, false);
         ExpUtil.changeExp(u, ExpUtil.QUESTIONEXP, true);
@@ -176,7 +183,6 @@ public class QuestionController extends Controller {
             JSONArray ja = new JSONArray(json.findPath("cIds").toString());
             for(int i = 0; i < ja.length(); i ++){
                 try {
-                    System.out.println("cId: " + ja.get(i).toString());
                     Long cid = Long.parseLong(ja.get(i).toString());
                     Category c = Ebean.find(Category.class, cid);
                     if (c != null) {

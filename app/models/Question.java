@@ -33,6 +33,8 @@ public class Question extends Model {
 
     private boolean isOpen;
 
+    private String imageUrlsString;
+
     @ManyToOne
     private User u;
 
@@ -43,6 +45,15 @@ public class Question extends Model {
     private Set<Category> cs = new HashSet<>();
 
     private int credit;
+
+
+    public String getImageUrlsString() {
+        return imageUrlsString;
+    }
+
+    public void setImageUrlsString(String imageUrlsString) {
+        this.imageUrlsString = imageUrlsString;
+    }
 
     public int getCredit() {
         return credit;
