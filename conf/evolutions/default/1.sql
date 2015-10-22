@@ -58,6 +58,7 @@ create table question (
   u_u_id                    bigint,
   best_answer_a_id          bigint,
   credit                    integer,
+  uuid                      varchar(255),
   constraint pk_question primary key (q_id))
 ;
 

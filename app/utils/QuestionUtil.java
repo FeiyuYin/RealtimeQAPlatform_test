@@ -27,6 +27,7 @@ public class QuestionUtil {
         result.put("createDate", q.getCreateDate());
         result.put("closeTime", q.getCloseTime());
         result.put("closeDate", q.getCloseDate());
+        result.put("UUID", q.getUUID());
 
         ArrayList<Long> cIdArray = new ArrayList<>();
         for(Category c : q.getCs()){

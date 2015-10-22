@@ -57,8 +57,12 @@ public class QuestionController extends Controller {
         if(json.findValue("imageUrls") == null){
             return badRequest("No imageUrl field");
         }
+        if(json.findValue("UUID") == null){
+            return badRequest("No UUID field");
+        }
         String qTitle = json.findPath("title").textValue();
         String qContent = json.findPath("content").textValue();
+        String UUID = json.findPath("UUID").textValue();
         int qCredit = json.findPath("credit").intValue();
         if (qCredit > u.getCredit()){
             return badRequest("Not enough credit");
@@ -91,6 +95,7 @@ public class QuestionController extends Controller {
         q.setU(u);
         q.setCs(cs);
         q.setImageUrlsString(urlsString);
+        q.setUUID(UUID);
         Ebean.save(q);
         CreditUtil.changeCredit(u, qCredit, false);
         ExpUtil.changeExp(u, ExpUtil.QUESTIONEXP, true);

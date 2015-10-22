@@ -46,6 +46,16 @@ public class Question extends Model {
 
     private int credit;
 
+    private String UUID;
+
+
+    public String getUUID() {
+        return UUID;
+    }
+
+    public void setUUID(String UUID) {
+        this.UUID = UUID;
+    }
 
     public String getImageUrlsString() {
         return imageUrlsString;
