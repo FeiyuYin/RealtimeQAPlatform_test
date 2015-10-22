@@ -20,6 +20,7 @@ public class NotificationUtil {
         result.put("nId", n.getnId());
         result.put("uId", n.getU().getuId());
         result.put("qId", n.getQ().getqId());
+        result.put("qTitle", n.getQ().getTitle());
         result.put("createDate", n.getCreateDate());
         result.put("createTime", n.getCreateTime());
         result.put("status", n.getStatus());

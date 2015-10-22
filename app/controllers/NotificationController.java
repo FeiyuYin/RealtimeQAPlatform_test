@@ -21,11 +21,7 @@ import java.util.List;
  */
 public class NotificationController extends Controller {
 
-    public static Result getNotifications(Long id){
-        User u = Ebean.find(User.class, id);
-        if (u == null){
-            return badRequest("User Id does not exist");
-        }
+    public static Result getNotifications(){
         List<Notification> ns = Ebean.find(Notification.class).findList();
         ArrayList<ObjectNode> nodeArray = new ArrayList<>();
         for (Notification n : ns){
@@ -47,7 +43,7 @@ public class NotificationController extends Controller {
         return ok(NotificationUtil.getJson(n));
     }
 
-    public static Result getUserNotification(Long userId){
+    public static Result getUserNotifications(Long userId){
         User u = Ebean.find(User.class, userId);
         if(u == null){
             return badRequest("Id does not exist");

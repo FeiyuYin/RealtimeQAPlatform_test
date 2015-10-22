@@ -37,9 +37,9 @@ GET     /categories                 controllers.CategoryController.getCategories
 PUT     /categories/:id             controllers.CategoryController.updateCategory(id: Long)
 DELETE  /categories/:id             controllers.CategoryController.deleteCategory(id: Long)
 
-GET     /notifications/:id          controllers.NotificationController.getNotifications(id: Long)
-GET     /notification/:id           controllers.NotificationController.getNotification(id: Long)
-GET     /usernotification/:userId   controllers.NotificationController.getUserNotification(userId: Long)
+GET     /notifications              controllers.NotificationController.getNotifications()
+GET     /notifications/:id          controllers.NotificationController.getNotification(id: Long)
+GET     /usernotifications/:userId  controllers.NotificationController.getUserNotifications(userId: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

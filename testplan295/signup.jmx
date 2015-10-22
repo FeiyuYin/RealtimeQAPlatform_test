@@ -31,13 +31,13 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;email&quot;: &quot;aa&quot;, &quot;password&quot;: &quot;ii&quot;, &quot;firstName&quot;: &quot;a&quot;, &quot;lastName&quot;: &quot;a&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;email&quot;: &quot;bb&quot;, &quot;password&quot;: &quot;ii&quot;, &quot;firstName&quot;: &quot;b&quot;, &quot;lastName&quot;: &quot;b&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">54.191.134.26</stringProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">9000</stringProp>
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
