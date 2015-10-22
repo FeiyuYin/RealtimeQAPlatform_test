@@ -45,7 +45,7 @@ public class QuestionUtil {
             }
         }
         array = mapper.valueToTree(imageUrls);
-        result.putArray("cIds").addAll(array);
+        result.putArray("imageUrls").addAll(array);
 
         return result;
     }
