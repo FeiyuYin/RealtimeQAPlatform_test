@@ -99,7 +99,7 @@ public class QuestionController extends Controller {
         Ebean.save(q);
         CreditUtil.changeCredit(u, qCredit, false);
         ExpUtil.changeExp(u, ExpUtil.QUESTIONEXP, true);
-        QRouting.questionRouting(q);
+        QRouting.questionRouting(q, u);
         return ok(QuestionUtil.getJson(q));
 
     }

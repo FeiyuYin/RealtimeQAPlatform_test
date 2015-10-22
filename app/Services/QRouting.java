@@ -13,18 +13,20 @@ import java.util.*;
  */
 public class QRouting {
     public static int UPLIMIT = 1;
-    public static void questionRouting(Question q){
-        ArrayList<User> cand = getCandidates(q);
+    public static void questionRouting(Question q, User u){
+        ArrayList<User> cand = getCandidates(q, u);
         rout(q, cand, UPLIMIT);
     }
 
-    private static ArrayList<User> getCandidates(Question q){
+    private static ArrayList<User> getCandidates(Question q, User poster){
         Set<Category> cats = (HashSet<Category>)q.getCs();
         ArrayList<User> cand = new ArrayList<User>();
         for (User u : Ebean.find(User.class).findList()){
-            for (Category c : cats){
-                if (u.getExpertises().contains(c)){
-                    cand.add(u);
+            if (u.getuId() != poster.getuId()){
+                for (Category c : cats){
+                    if (u.getExpertises().contains(c)){
+                        cand.add(u);
+                    }
                 }
             }
         }
