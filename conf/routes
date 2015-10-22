@@ -40,6 +40,7 @@ DELETE  /categories/:id             controllers.CategoryController.deleteCategor
 GET     /notifications              controllers.NotificationController.getNotifications()
 GET     /notifications/:id          controllers.NotificationController.getNotification(id: Long)
 GET     /usernotifications/:userId  controllers.NotificationController.getUserNotifications(userId: Long)
+GET     /updatenotifications/:id    controllers.NotificationController.updateNotification(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

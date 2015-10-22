@@ -61,4 +61,14 @@ public class NotificationController extends Controller {
         result.putArray("results").addAll(array);
         return ok(result);
     }
+
+    public static Result updateNotification(Long nId){
+        Notification n = Ebean.find(Notification.class, nId);
+        if (n == null){
+            return badRequest("Notification Id does not exist");
+        }
+        n.setStatus("Read");
+        Ebean.save(n);
+        return ok(NotificationUtil.getJson(n));
+    }
 }
