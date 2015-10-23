@@ -71,4 +71,13 @@ public class NotificationController extends Controller {
         Ebean.save(n);
         return ok(NotificationUtil.getJson(n));
     }
+
+    public static Result removeNotification(Long nId){
+        Notification n = Ebean.find(Notification.class, nId);
+        if (n == null){
+            return badRequest("Notification Id does not exist");
+        }
+        Ebean.delete(n);
+        return ok();
+    }
 }
