@@ -80,4 +80,20 @@ public class NotificationController extends Controller {
         Ebean.delete(n);
         return ok();
     }
+
+    public static Result getUserUnreadNotificationsNum(Long uId){
+        User u = Ebean.find(User.class, uId);
+        if(u == null){
+            return badRequest("Id does not exist");
+        }
+        int count = 0;
+        List<Notification> ns = Ebean.find(Notification.class).findList();
+        for (Notification n : ns){
+            if (n.getU().getuId() == uId && n.getStatus().equals("New")){
+                count ++;
+            }
+        }
+
+        return ok(Json.newObject().put("count", count));
+    }
 }
