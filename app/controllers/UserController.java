@@ -104,7 +104,7 @@ public class UserController extends Controller {
 
         Set<Category> cs = new HashSet<Category>();
 
-        if(json.findPath("cIds") != null){
+        if(json.findValue("cIds") != null){
             JSONArray ja = new JSONArray(json.findPath("cIds").toString());
             for(int i = 0; i < ja.length(); i ++){
                 Long cId = Long.parseLong(ja.get(i).toString());
