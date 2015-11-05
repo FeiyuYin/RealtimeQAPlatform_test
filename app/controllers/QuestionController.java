@@ -99,9 +99,17 @@ public class QuestionController extends Controller {
         Ebean.save(q);
         CreditUtil.changeCredit(u, qCredit, false);
         ExpUtil.changeExp(u, ExpUtil.QUESTIONEXP, true);
-        QRouting.questionRouting(q, u);
-        return ok(QuestionUtil.getJson(q));
 
+        ArrayList<ObjectNode> nodeArray = new ArrayList<>();
+        ArrayList<User> targets = QRouting.questionRouting(q, u);
+        for (User user : targets){
+            nodeArray.add(UserUtil.getUserJson(user));
+        }
+        ObjectNode result = Json.newObject();
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode array = mapper.valueToTree(nodeArray);
+        result.putArray("results").addAll(array);
+        return ok(result);
     }
 
     public static Result getQuestion(Long id){

@@ -36,10 +36,7 @@ public class AuthController extends Controller {
 
         List<User> us = Ebean.find(User.class).where().eq("email", email).findList();
         if(us != null && us.size() != 0 && us.get(0).getPassword().equals(password)){
-  //                 response().setHeader("Access-Control-Allow-Origin", "*");
-//        response().setHeader("Allow", "*");
-
-                return ok(UserUtil.getUserJson(us.get(0)));
+            return ok(UserUtil.getUserJson(us.get(0)));
         }
         else{
             return badRequest("Email not exist or wrong password");
@@ -58,12 +55,17 @@ public class AuthController extends Controller {
         if(json.findPath("password").textValue() == null){
             return badRequest("No password field");
         }
+        if(json.findValuesAsText("uMId") == null){
+            return badRequest("No uMId field");
+        }
 
         String email = json.findPath("email").textValue();
         String password = json.findPath("password").textValue();
+        String uMId = json.findPath("uMId").textValue();
 
         User u = new User();
         u.setEmail(email);
+        u.setuMId(uMId);
         u.setPassword(password);
         u.setCredit(100);
 

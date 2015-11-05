@@ -13,9 +13,9 @@ import java.util.*;
  */
 public class QRouting {
     public static int UPLIMIT = 1;
-    public static void questionRouting(Question q, User u){
+    public static ArrayList<User> questionRouting(Question q, User u){
         ArrayList<User> cand = getCandidates(q, u);
-        rout(q, cand, UPLIMIT);
+        return rout(q, cand, UPLIMIT);
     }
 
     private static ArrayList<User> getCandidates(Question q, User poster){
@@ -33,9 +33,10 @@ public class QRouting {
         return cand;
     }
 
-    private static void rout(Question q, ArrayList<User> cand, int num){
+    private static ArrayList<User> rout(Question q, ArrayList<User> cand, int num){
+        ArrayList<User> targets = new ArrayList<User>();
         if (q == null || cand == null || cand.size() == 0){
-            return;
+            return targets;
         }
         Collections.sort(cand, new Comparator<User>() {
             @Override
@@ -46,6 +47,8 @@ public class QRouting {
 
         for (int i = 0; i < cand.size() && i < num; i ++){
             NotificationUtil.generateNewQuestionN(q, cand.get(i));
+            targets.add(cand.get(i));
         }
+        return targets;
     }
 }

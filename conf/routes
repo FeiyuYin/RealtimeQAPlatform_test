@@ -13,6 +13,7 @@ POST    /signup                     controllers.AuthController.signup()
 
 GET     /users/:id                  controllers.UserController.getUser(id: Long)
 GET     /users                      controllers.UserController.getUsers()
+GET     /usersbyumid/:id            controllers.UserController.getUserByUMId(id: String)
 PUT     /users/:id                  controllers.UserController.updateUser(id: Long)
 DELETE  /users/:id                  controllers.UserController.deleteUser(id: Long)
 

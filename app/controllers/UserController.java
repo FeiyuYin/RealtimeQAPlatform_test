@@ -45,10 +45,14 @@ public class UserController extends Controller {
         if(json.findValuesAsText("cIds") == null){
             return badRequest("No cIds field");
         }
+        if(json.findValuesAsText("uMId") == null){
+            return badRequest("No uMId field");
+        }
 
         String firstName = json.findPath("firstName").textValue();
         String lastName = json.findPath("lastName").textValue();
         String email = json.findPath("email").textValue();
+        String uMId = json.findPath("uMId").textValue();
         String password = json.findPath("password").textValue();
         List<String> cNames =  json.findValuesAsText("cIds");
 
@@ -61,6 +65,7 @@ public class UserController extends Controller {
         }
         User u = new User();
         u.setEmail(email);
+        u.setuMId(uMId);
         u.setFirstName(firstName);
         u.setLastName(lastName);
         u.setPassword(password);
@@ -75,6 +80,16 @@ public class UserController extends Controller {
             return badRequest("Id does not exist");
         }
         return ok(UserUtil.getUserJson(u));
+    }
+
+    public static Result getUserByUMId(String uMId){
+        List<User> users = Ebean.find(User.class).findList();
+        for (User u : users){
+            if (u.getuMId().equals(uMId)){
+                return ok(UserUtil.getUserJson(u));
+            }
+        }
+        return badRequest("uMId does not exist");
     }
 
     public static Result getUsers(){

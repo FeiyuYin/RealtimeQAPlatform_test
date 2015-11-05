@@ -28,6 +28,16 @@ public class User extends Model {
 
     private int exp;
 
+    private String uMId;
+
+    public String getuMId() {
+        return uMId;
+    }
+
+    public void setuMId(String uMId) {
+        this.uMId = uMId;
+    }
+
     public int getCredit() {
         return credit;
     }

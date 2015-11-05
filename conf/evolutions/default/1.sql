@@ -70,6 +70,7 @@ create table user (
   password                  varchar(255),
   credit                    integer,
   exp                       integer,
+  u_mid                     varchar(255),
   constraint pk_user primary key (u_id))
 ;
 

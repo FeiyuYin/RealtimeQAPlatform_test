@@ -16,6 +16,7 @@ public class UserUtil {
     public static ObjectNode getUserJson(User u){
         ObjectNode result = Json.newObject();
         result.put("uId", u.getuId());
+        result.put("uMId", u.getuMId());
         result.put("password", u.getPassword());
         result.put("firstName", u.getFirstName());
         result.put("lastName", u.getLastName());
