@@ -140,7 +140,7 @@ public class AuthController extends Controller {
         if (u == null){
             return badRequest("from userId does not exist");
         }
-        String comment = json.findPath("tUId").textValue() + "/" + json.findPath("fUId").textValue() + "/" + json.findPath("uuid").textValue();
+        String comment = json.findPath("tUId").longValue() + "/" + json.findPath("fUId").longValue() + "/" + json.findPath("uuid").textValue();
         NotificationUtil.generateChatN(u, a.getQ(), comment);
 
         return ok();
