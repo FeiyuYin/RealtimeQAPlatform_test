@@ -115,16 +115,16 @@ public class AuthController extends Controller {
         if(json == null){
             return badRequest("Expecting a Json input");
         }
-        if(json.findPath("fUId") == null){
+        if(json.findValue("fUId") == null){
             return badRequest("No fUId field");
         }
-        if(json.findPath("tUId") == null){
+        if(json.findValue("tUId") == null){
             return badRequest("No tUId field");
         }
-        if(json.findPath("uuid") == null){
+        if(json.findValue("uuid") == null){
             return badRequest("No uuid field");
         }
-        if(json.findPath("aId") == null){
+        if(json.findValue("aId") == null){
             return badRequest("No aId field");
         }
 

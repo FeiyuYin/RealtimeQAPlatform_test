@@ -36,6 +36,7 @@ public class NotificationUtil {
         n.setQ(q);
         n.setU(u);
         n.setStatus("New");
+        n.setComment("");
         n.setCreateDate(TimeUtil.getCurrentDate());
         n.setCreateTime(TimeUtil.getCurrentTime());
         Ebean.save(n);
