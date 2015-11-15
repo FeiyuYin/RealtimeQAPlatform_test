@@ -23,6 +23,8 @@ public class QuestionUtil {
         result.put("content", q.getContent());
         result.put("bestAnswer", q.getBestAnswer() == null ? null :q.getBestAnswer().getaId());
         result.put("isOpen", q.isOpen());
+        result.put("hasImage", q.isHasImage());
+        result.put("hasVoice", q.isHasVoice());
         result.put("createTime", q.getCreateTime());
         result.put("createDate", q.getCreateDate());
         result.put("closeTime", q.getCloseTime());

@@ -2,15 +2,13 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.User;
-import play.db.ebean.Model;
+import play.libs.Json;
 import play.mvc.Controller;
-
 import play.mvc.Result;
 import utils.UserUtil;
-
 import java.util.List;
-
 import static play.libs.Json.toJson;
 
 /**
@@ -20,7 +18,6 @@ public class AuthController extends Controller {
    
 
     public static Result signin(){
-
         JsonNode json = request().body().asJson();
         if(json == null){
             return badRequest("Expecting a Json input");
@@ -44,7 +41,6 @@ public class AuthController extends Controller {
     }
 
     public static Result signup(){
-
         JsonNode json = request().body().asJson();
         if(json == null){
             return badRequest("Expecting a Json input");
@@ -68,6 +64,8 @@ public class AuthController extends Controller {
         u.setuMId(uMId);
         u.setPassword(password);
         u.setCredit(100);
+        u.setOnLine(true);
+        u.setLastActiveTime(System.currentTimeMillis());
 
         if(json.findPath("firstName").textValue() != null){
             u.setFirstName(json.findPath("firstName").textValue());
@@ -77,5 +75,36 @@ public class AuthController extends Controller {
         }
         Ebean.save(u);
         return ok(toJson(u));
+    }
+
+    public static Result heartBeat(Long userId){
+        User u = Ebean.find(User.class, userId);
+        if(u == null){
+            return badRequest("userId does not exist");
+        }
+        u.setOnLine(true);
+        u.setLastActiveTime(System.currentTimeMillis());
+        Ebean.save(u);
+        return ok();
+    }
+
+    public static Result logOff(Long userId){
+        User u = Ebean.find(User.class, userId);
+        if(u == null){
+            return badRequest("userId does not exist");
+        }
+        u.setOnLine(false);
+        u.setLastActiveTime(System.currentTimeMillis());
+        Ebean.save(u);
+        return ok();
+    }
+
+    public static Result isOnLine(Long userId){
+        User u = Ebean.find(User.class, userId);
+        if(u == null){
+            return badRequest("userId does not exist");
+        }
+        ObjectNode result = Json.newObject();
+        return ok(result.put("isOnLine", u.isOnLine()));
     }
 }

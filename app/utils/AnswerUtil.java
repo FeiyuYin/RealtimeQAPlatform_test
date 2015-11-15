@@ -16,6 +16,8 @@ public class AnswerUtil {
         result.put("isBest", a.isBest());
         result.put("likes", a.getLikes());
         result.put("views", a.getViews());
+        result.put("hasImage", a.isHasImage());
+        result.put("hasVoice", a.isHasVoice());
         result.put("q", a.getQ().getqId());
         result.put("u", a.getU().getuId());
         return result;

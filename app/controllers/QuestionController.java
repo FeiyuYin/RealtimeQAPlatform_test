@@ -86,6 +86,16 @@ public class QuestionController extends Controller {
             urlsString += ("###" + ja.get(i).toString());
         }
 
+        boolean hasImage = false;
+        if (json.findValue("hasImage") != null){
+            hasImage = json.findPath("hasImage").booleanValue();
+        }
+
+        boolean hasVoice = false;
+        if (json.findValue("hasVoice") != null){
+            hasVoice = json.findPath("hasVoice").booleanValue();
+        }
+
         q.setCreateTime(TimeUtil.getCurrentTime());
         q.setCreateDate(TimeUtil.getCurrentDate());
         q.setIsOpen(true);
@@ -96,6 +106,8 @@ public class QuestionController extends Controller {
         q.setCs(cs);
         q.setImageUrlsString(urlsString);
         q.setUUID(UUID);
+        q.setHasImage(hasImage);
+        q.setHasVoice(hasVoice);
         Ebean.save(q);
         CreditUtil.changeCredit(u, qCredit, false);
         ExpUtil.changeExp(u, ExpUtil.QUESTIONEXP, true);

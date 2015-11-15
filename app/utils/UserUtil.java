@@ -23,6 +23,8 @@ public class UserUtil {
         result.put("email", u.getEmail());
         result.put("credit", u.getCredit());
         result.put("exp", u.getExp());
+        result.put("onLine", u.isOnLine());
+        result.put("lastActiveTime", u.getLastActiveTime());
 
         ArrayList<Long> cIdArray = new ArrayList<>();
         for (Category c : u.getExpertises()){

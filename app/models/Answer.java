@@ -27,6 +27,26 @@ public class Answer {
     @ManyToOne
     private User u;
 
+    private boolean hasVoice;
+
+    private boolean hasImage;
+
+    public boolean isHasVoice() {
+        return hasVoice;
+    }
+
+    public void setHasVoice(boolean hasVoice) {
+        this.hasVoice = hasVoice;
+    }
+
+    public boolean isHasImage() {
+        return hasImage;
+    }
+
+    public void setHasImage(boolean hasImage) {
+        this.hasImage = hasImage;
+    }
+
     public User getU() {
         return u;
     }

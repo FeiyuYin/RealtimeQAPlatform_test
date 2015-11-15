@@ -1,10 +1,19 @@
+import java.lang.Long;
+import java.lang.System;
 import java.net.URL;
 
+import com.avaje.ebean.Ebean;
 import play.*;
 import play.libs.F.Promise;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
+import scala.concurrent.duration.FiniteDuration;
+import java.util.concurrent.TimeUnit;
+import play.libs.Akka;
+import models.User;
+import java.util.List;
+
 
 public class Global extends GlobalSettings {
 
@@ -27,6 +36,25 @@ public class Global extends GlobalSettings {
   public Action<?> onRequest(Http.Request request,
       java.lang.reflect.Method actionMethod) {
     return new ActionWrapper(super.onRequest(request, actionMethod));
+  }
+
+  @Override
+  public void onStart(Application app) {
+    Runnable task = new Runnable() {
+      @Override
+      public void run() {
+        List<User> users = Ebean.find(User.class).findList();
+        Long curT = System.currentTimeMillis();
+        for (User u : users){
+          if(u.isOnLine() && curT - u.getLastActiveTime() > 60000){
+            u.setOnLine(false);
+            System.out.println("Set offline for user: " + u.getuId());
+            Ebean.save(u);
+          }
+        }
+      }
+    };
+    Akka.system().scheduler().schedule(FiniteDuration.create(0, TimeUnit.SECONDS), FiniteDuration.create(30, TimeUnit.SECONDS), task, Akka.system().dispatcher());
   }
 
 }

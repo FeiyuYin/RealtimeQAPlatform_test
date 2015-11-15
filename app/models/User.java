@@ -30,6 +30,26 @@ public class User extends Model {
 
     private String uMId;
 
+    private boolean onLine;
+
+    private long lastActiveTime;
+
+    public long getLastActiveTime() {
+        return lastActiveTime;
+    }
+
+    public void setLastActiveTime(long lastActiveTime) {
+        this.lastActiveTime = lastActiveTime;
+    }
+
+    public boolean isOnLine() {
+        return onLine;
+    }
+
+    public void setOnLine(boolean onLine) {
+        this.onLine = onLine;
+    }
+
     public String getuMId() {
         return uMId;
     }

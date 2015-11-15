@@ -48,6 +48,26 @@ public class Question extends Model {
 
     private String UUID;
 
+    private boolean hasImage;
+
+    private boolean hasVoice;
+
+
+    public boolean isHasVoice() {
+        return hasVoice;
+    }
+
+    public void setHasVoice(boolean hasVoice) {
+        this.hasVoice = hasVoice;
+    }
+
+    public boolean isHasImage() {
+        return hasImage;
+    }
+
+    public void setHasImage(boolean hasImage) {
+        this.hasImage = hasImage;
+    }
 
     public String getUUID() {
         return UUID;

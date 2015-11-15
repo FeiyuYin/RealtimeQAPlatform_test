@@ -61,6 +61,17 @@ public class AnswerController extends Controller {
         boolean isBest = json.findPath("isBest").asBoolean();
         int views = json.findPath("views").asInt();
         int likes = json.findPath("likes").asInt();
+
+        boolean hasImage = false;
+        if (json.findValue("hasImage") != null){
+            hasImage = json.findPath("hasImage").booleanValue();
+        }
+
+        boolean hasVoice = false;
+        if (json.findValue("hasVoice") != null){
+            hasVoice = json.findPath("hasVoice").booleanValue();
+        }
+
         Answer a = new Answer();
         a.setContent(aContent);
         a.setIsBest(isBest);
@@ -68,6 +79,8 @@ public class AnswerController extends Controller {
         a.setViews(views);
         a.setQ(q);
         a.setU(u);
+        a.setHasImage(hasImage);
+        a.setHasVoice(hasVoice);
         Ebean.save(a);
         ExpUtil.changeExp(u, ExpUtil.ANSWEREXP, true);
         NotificationUtil.generateNewAnswerN(q, q.getU());

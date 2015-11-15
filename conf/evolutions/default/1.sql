@@ -11,6 +11,8 @@ create table answer (
   views                     integer,
   q_q_id                    bigint,
   u_u_id                    bigint,
+  has_voice                 tinyint(1) default 0,
+  has_image                 tinyint(1) default 0,
   constraint pk_answer primary key (a_id))
 ;
 
@@ -59,6 +61,8 @@ create table question (
   best_answer_a_id          bigint,
   credit                    integer,
   uuid                      varchar(255),
+  has_image                 tinyint(1) default 0,
+  has_voice                 tinyint(1) default 0,
   constraint pk_question primary key (q_id))
 ;
 
@@ -71,6 +75,8 @@ create table user (
   credit                    integer,
   exp                       integer,
   u_mid                     varchar(255),
+  on_line                   tinyint(1) default 0,
+  last_active_time          bigint,
   constraint pk_user primary key (u_id))
 ;
 
