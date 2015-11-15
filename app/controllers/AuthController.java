@@ -3,10 +3,12 @@ package controllers;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Answer;
 import models.User;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import utils.NotificationUtil;
 import utils.UserUtil;
 import java.util.List;
 import static play.libs.Json.toJson;
@@ -106,5 +108,41 @@ public class AuthController extends Controller {
         }
         ObjectNode result = Json.newObject();
         return ok(result.put("isOnLine", u.isOnLine()));
+    }
+
+    public static Result chat(){
+        JsonNode json = request().body().asJson();
+        if(json == null){
+            return badRequest("Expecting a Json input");
+        }
+        if(json.findPath("fUId") == null){
+            return badRequest("No fUId field");
+        }
+        if(json.findPath("tUId") == null){
+            return badRequest("No tUId field");
+        }
+        if(json.findPath("uuid") == null){
+            return badRequest("No uuid field");
+        }
+        if(json.findPath("aId") == null){
+            return badRequest("No aId field");
+        }
+
+        Answer a = Ebean.find(Answer.class, json.findPath("aId").longValue());
+        if (a == null){
+            return badRequest("answerId does not exist");
+        }
+        User u = Ebean.find(User.class, json.findPath("tUId").longValue());
+        if (u == null){
+            return badRequest("target userId does not exist");
+        }
+        User u2 = Ebean.find(User.class, json.findPath("fUId").longValue());
+        if (u == null){
+            return badRequest("from userId does not exist");
+        }
+        String comment = json.findPath("tUId").textValue() + "/" + json.findPath("fUId").textValue() + "/" + json.findPath("uuid").textValue();
+        NotificationUtil.generateChatN(u, a.getQ(), comment);
+
+        return ok();
     }
 }

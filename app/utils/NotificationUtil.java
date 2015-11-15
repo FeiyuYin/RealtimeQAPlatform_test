@@ -12,7 +12,7 @@ import play.libs.Json;
  */
 public class NotificationUtil {
     public enum NotificationType{
-        NEWQUESTION, NEWANSWER, BESTANSWER
+        NEWQUESTION, NEWANSWER, BESTANSWER, CHAT
     }
 
     public static ObjectNode getJson(Notification n){
@@ -25,6 +25,7 @@ public class NotificationUtil {
         result.put("createTime", n.getCreateTime());
         result.put("status", n.getStatus());
         result.put("type", n.getType());
+        result.put("comment", n.getComment());
 
         return result;
     }
@@ -46,6 +47,7 @@ public class NotificationUtil {
         n.setQ(q);
         n.setU(u);
         n.setStatus("New");
+        n.setComment("");
         n.setCreateDate(TimeUtil.getCurrentDate());
         n.setCreateTime(TimeUtil.getCurrentTime());
         Ebean.save(n);
@@ -57,6 +59,19 @@ public class NotificationUtil {
         n.setQ(q);
         n.setU(u);
         n.setStatus("New");
+        n.setComment("");
+        n.setCreateDate(TimeUtil.getCurrentDate());
+        n.setCreateTime(TimeUtil.getCurrentTime());
+        Ebean.save(n);
+    }
+
+    public static void generateChatN(User u, Question q, String comment){
+        Notification n = new Notification();
+        n.setType(NotificationType.CHAT);
+        n.setQ(q);
+        n.setU(u);
+        n.setStatus("New");
+        n.setComment(comment);
         n.setCreateDate(TimeUtil.getCurrentDate());
         n.setCreateTime(TimeUtil.getCurrentTime());
         Ebean.save(n);

@@ -29,6 +29,16 @@ public class Notification extends Model {
 
     private NotificationUtil.NotificationType type;
 
+    private String comment;
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public long getnId() {
         return nId;
     }

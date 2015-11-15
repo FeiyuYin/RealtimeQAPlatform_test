@@ -13,6 +13,7 @@ POST    /signup                     controllers.AuthController.signup()
 GET     /heartbeat/:userId          controllers.AuthController.heartBeat(userId: Long)
 GET     /logoff/:userId             controllers.AuthController.logOff(userId: Long)
 GET     /isonline/:userId           controllers.AuthController.isOnLine(userId: Long)
+POST    /chat                       controllers.AuthController.isOnLine();
 
 GET     /users/:id                  controllers.UserController.getUser(id: Long)
 GET     /users                      controllers.UserController.getUsers()
