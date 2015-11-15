@@ -33,7 +33,8 @@ create table notification (
   create_time               varchar(255),
   create_date               varchar(255),
   type                      integer,
-  constraint ck_notification_type check (type in (0,1,2)),
+  comment                   varchar(255),
+  constraint ck_notification_type check (type in (0,1,2,3)),
   constraint pk_notification primary key (n_id))
 ;
 
