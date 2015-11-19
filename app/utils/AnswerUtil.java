@@ -20,6 +20,8 @@ public class AnswerUtil {
         result.put("hasVoice", a.isHasVoice());
         result.put("q", a.getQ().getqId());
         result.put("u", a.getU().getuId());
+        result.put("createDate", a.getCreateDate());
+        result.put("createTime", a.getCreateTime());
         return result;
     }
 }

@@ -14,6 +14,7 @@ import play.mvc.Result;
 import utils.AnswerUtil;
 import utils.ExpUtil;
 import utils.NotificationUtil;
+import utils.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +82,8 @@ public class AnswerController extends Controller {
         a.setU(u);
         a.setHasImage(hasImage);
         a.setHasVoice(hasVoice);
+        a.setCreateDate(TimeUtil.getCurrentDate());
+        a.setCreateTime(TimeUtil.getCurrentTime());
         Ebean.save(a);
         ExpUtil.changeExp(u, ExpUtil.ANSWEREXP, true);
         NotificationUtil.generateNewAnswerN(q, q.getU());

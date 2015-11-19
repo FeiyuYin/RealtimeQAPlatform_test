@@ -31,6 +31,26 @@ public class Answer {
 
     private boolean hasImage;
 
+    private String createTime;
+
+    private String createDate;
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
     public boolean isHasVoice() {
         return hasVoice;
     }
