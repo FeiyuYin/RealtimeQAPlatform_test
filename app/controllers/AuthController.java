@@ -17,7 +17,8 @@ import static play.libs.Json.toJson;
  * Created by yin on 15-5-5.
  */
 public class AuthController extends Controller {
-   
+
+    private static int videoRoomId = 0;
 
     public static Result signin(){
         JsonNode json = request().body().asJson();
@@ -143,6 +144,39 @@ public class AuthController extends Controller {
         String comment = json.findPath("tUId").longValue() + "/" + json.findPath("fUId").longValue() + "/" + json.findPath("uuid").textValue();
         NotificationUtil.generateChatN(u, a.getQ(), comment);
 
+        return ok();
+    }
+
+    public static Result getVideoRoomId(){
+        return ok(Json.newObject().put("videoRoomId", videoRoomId ++));
+    }
+
+    public static Result videoCall(){
+        JsonNode json = request().body().asJson();
+        if(json == null){
+            return badRequest("Expecting a Json input");
+        }
+        if(json.findValue("tUId") == null){
+            return badRequest("No tUId field");
+        }
+        if(json.findValue("aId") == null){
+            return badRequest("No aId field");
+        }
+        if(json.findValue("roomId") == null){
+            return badRequest("No roomId field");
+        }
+
+        Answer a = Ebean.find(Answer.class, json.findPath("aId").longValue());
+        if (a == null){
+            return badRequest("answerId does not exist");
+        }
+        User u = Ebean.find(User.class, json.findPath("tUId").longValue());
+        if (u == null){
+            return badRequest("target userId does not exist");
+        }
+
+        String comment = json.findValue("roomId").intValue() + "";
+        NotificationUtil.generateVideoN(u, a.getQ(), comment);
         return ok();
     }
 }

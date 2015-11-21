@@ -13,6 +13,8 @@ create table answer (
   u_u_id                    bigint,
   has_voice                 tinyint(1) default 0,
   has_image                 tinyint(1) default 0,
+  create_time               varchar(255),
+  create_date               varchar(255),
   constraint pk_answer primary key (a_id))
 ;
 

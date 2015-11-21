@@ -12,7 +12,7 @@ import play.libs.Json;
  */
 public class NotificationUtil {
     public enum NotificationType{
-        NEWQUESTION, NEWANSWER, BESTANSWER, CHAT
+        NEWQUESTION, NEWANSWER, BESTANSWER, CHAT, VIDEO
     }
 
     public static ObjectNode getJson(Notification n){
@@ -69,6 +69,18 @@ public class NotificationUtil {
     public static void generateChatN(User u, Question q, String comment){
         Notification n = new Notification();
         n.setType(NotificationType.CHAT);
+        n.setQ(q);
+        n.setU(u);
+        n.setStatus("New");
+        n.setComment(comment);
+        n.setCreateDate(TimeUtil.getCurrentDate());
+        n.setCreateTime(TimeUtil.getCurrentTime());
+        Ebean.save(n);
+    }
+
+    public static void generateVideoN(User u, Question q, String comment){
+        Notification n = new Notification();
+        n.setType(NotificationType.VIDEO);
         n.setQ(q);
         n.setU(u);
         n.setStatus("New");
