@@ -5,7 +5,7 @@
 
 create table answer (
   a_id                      bigint auto_increment not null,
-  content                   varchar(255),
+  content                   TEXT,
   is_best                   tinyint(1) default 0,
   likes                     integer,
   views                     integer,
@@ -53,8 +53,8 @@ create table person (
 
 create table question (
   q_id                      bigint auto_increment not null,
-  title                     varchar(255),
-  content                   varchar(255),
+  title                     TEXT,
+  content                   TEXT,
   create_time               varchar(255),
   create_date               varchar(255),
   close_time                varchar(255),

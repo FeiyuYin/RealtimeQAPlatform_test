@@ -1,9 +1,6 @@
 package models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Created by yin on 15-4-1.
@@ -13,6 +10,7 @@ public class Answer {
     @Id
     private long aId;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     private boolean isBest;

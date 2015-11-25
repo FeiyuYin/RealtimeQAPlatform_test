@@ -1,5 +1,6 @@
 package models;
 
+import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
 import javax.annotation.PreDestroy;
@@ -19,8 +20,10 @@ public class Question extends Model {
     @Id
     private long qId;
 
+    @Column(columnDefinition = "TEXT")
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     private String createTime;
