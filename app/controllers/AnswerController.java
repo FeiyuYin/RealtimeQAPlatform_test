@@ -47,6 +47,9 @@ public class AnswerController extends Controller {
         if(json.findPath("likes") == null){
             return badRequest("No likes field");
         }
+        if(json.findPath("aUUID") == null){
+            return badRequest("No aUUID field");
+        }
 
         Long uId = json.findPath("uId").asLong();
         User u = Ebean.find(User.class, uId);
@@ -62,6 +65,7 @@ public class AnswerController extends Controller {
         boolean isBest = json.findPath("isBest").asBoolean();
         int views = json.findPath("views").asInt();
         int likes = json.findPath("likes").asInt();
+        String aUUID = json.findPath("aUUID").asText();
 
         boolean hasImage = false;
         if (json.findValue("hasImage") != null){
@@ -84,6 +88,7 @@ public class AnswerController extends Controller {
         a.setHasVoice(hasVoice);
         a.setCreateDate(TimeUtil.getCurrentDate());
         a.setCreateTime(TimeUtil.getCurrentTime());
+        a.setaUUID(aUUID);
         Ebean.save(a);
         ExpUtil.changeExp(u, ExpUtil.ANSWEREXP, true);
         NotificationUtil.generateNewAnswerN(q, q.getU());

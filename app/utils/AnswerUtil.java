@@ -12,6 +12,7 @@ public class AnswerUtil {
     public static ObjectNode getAnswerJson(Answer a){
         ObjectNode result = Json.newObject();
         result.put("aId", a.getaId());
+        result.put("aUUID", a.getaUUID());
         result.put("content", a.getContent());
         result.put("isBest", a.isBest());
         result.put("likes", a.getLikes());

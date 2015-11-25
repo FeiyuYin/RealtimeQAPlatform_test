@@ -35,6 +35,16 @@ public class Answer {
 
     private String createDate;
 
+    private String aUUID;
+
+    public String getaUUID() {
+        return aUUID;
+    }
+
+    public void setaUUID(String aUUID) {
+        this.aUUID = aUUID;
+    }
+
     public String getCreateTime() {
         return createTime;
     }

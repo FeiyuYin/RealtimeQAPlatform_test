@@ -15,6 +15,7 @@ create table answer (
   has_image                 tinyint(1) default 0,
   create_time               varchar(255),
   create_date               varchar(255),
+  a_uuid                    varchar(255),
   constraint pk_answer primary key (a_id))
 ;
 
@@ -36,7 +37,7 @@ create table notification (
   create_date               varchar(255),
   type                      integer,
   comment                   varchar(255),
-  constraint ck_notification_type check (type in (0,1,2,3)),
+  constraint ck_notification_type check (type in (0,1,2,3,4)),
   constraint pk_notification primary key (n_id))
 ;
 
