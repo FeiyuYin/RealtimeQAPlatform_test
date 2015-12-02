@@ -12,7 +12,7 @@ import java.util.*;
  * Created by yin on 15-8-25.
  */
 public class QRouting {
-    public static int UPLIMIT = 1;
+    public static int UPLIMIT = 50;
     public static ArrayList<User> questionRouting(Question q, User u){
         ArrayList<User> cand = getCandidates(q, u);
         return rout(q, cand, UPLIMIT);

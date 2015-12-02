@@ -31,14 +31,14 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;uId&quot;: 1, &quot;qId&quot;: 1, &quot;content&quot;: &quot;Cook it this way!&quot;, &quot;isBest&quot;: &quot;false&quot;, &quot;views&quot;: 0, &quot;likes&quot;: 0, &quot;aUUID&quot;: &quot;feafdgfaeg&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;uId&quot;: 1, &quot;qId&quot;: 1, &quot;content&quot;: &quot;The 100% width on the body element is in relation to the view port, which is why you&apos;re background color is cutting when you scroll. Either set a width to your body at 1520px to encompase the contained div or add another div and do the following:&quot;, &quot;isBest&quot;: &quot;false&quot;, &quot;views&quot;: 0, &quot;likes&quot;: 0, &quot;aUUID&quot;: &quot;feafdgfaeg&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name"></stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.domain">52.34.229.35</stringProp>
           <stringProp name="HTTPSampler.port">9000</stringProp>
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
