@@ -148,6 +148,37 @@ public class QuestionController extends Controller {
         return ok(result);
     }
 
+    public static Result getSubscribedQuestions(Long userId){
+        User u = Ebean.find(User.class, userId);
+        if(u == null){
+            return badRequest("Id does not exist");
+        }
+        List<Question> questions = Ebean.find(Question.class).findList();
+        ArrayList<ObjectNode> nodeArray = new ArrayList<>();
+        for(Question q : questions){
+            if (q.getU().getuId() != userId && hasOverlap(u.getExpertises(), q.getCs())){
+                nodeArray.add(QuestionUtil.getJson(q));
+            }
+        }
+
+        ObjectNode result = Json.newObject();
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode array = mapper.valueToTree(nodeArray);
+        result.putArray("results").addAll(array);
+        return ok(result);
+    }
+
+    private static boolean hasOverlap(Set<Category> cs1, Set<Category> cs2){
+        for(Category c : cs1){
+            for (Category cat : cs2){
+                if (c.getcId() == cat.getcId()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public static Result getUserQuestions(Long userId){
         User u = Ebean.find(User.class, userId);
         if(u == null){

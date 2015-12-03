@@ -30,6 +30,7 @@ GET     /answerquestions/:userId    controllers.QuestionController.getAnswerQues
 GET     /questions                  controllers.QuestionController.getQuestions()
 PUT     /questions/:id              controllers.QuestionController.updateQuestion(id: Long)
 DELETE  /questions/:id              controllers.QuestionController.deleteQuestion(id: Long)
+GET     /subscribedquestions/:userId controllers.QuestionController.getSubscribedQuestions(userId: Long)
 
 POST    /answers                    controllers.AnswerController.createAnswer()
 GET     /answers/:id                controllers.AnswerController.getAnswer(id: Long)
