@@ -24,7 +24,7 @@ public class QRouting {
         for (User u : Ebean.find(User.class).findList()){
             if (u.getuId() != poster.getuId()){
                 for (Category c : cats){
-                    if (u.getExpertises().contains(c)){
+                    if (!cand.contains(u) && u.getExpertises().contains(c)){
                         cand.add(u);
                     }
                 }
